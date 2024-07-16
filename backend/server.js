@@ -5,17 +5,10 @@ const connectDB = require("./config/dbConnection");
 const app = express();
 const port = process.env.PORT || 5000;
 
-
 connectDB();
 app.use(express.json());
 
-app.get("/" , (req, res) => {
-    res.sendFile()
-});
-
-app.get("/user" , (req, res) => {
-    res.send("This is a test for USER page");
-});
+app.use("/api/auth", require("./routes/auth"));
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
