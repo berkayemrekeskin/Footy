@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../api/api';
 import '../styles/UserInfoForm.css';
+import { createUserInfo } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const UserInfoForm = () => {
@@ -17,21 +17,20 @@ const UserInfoForm = () => {
         shots_tried: undefined,
         shots_complete: undefined,
     });
-
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post('/info/create', formData);
+            const token = JSON.parse(localStorage.getItem('token'));
+            const response = await createUserInfo(formData, token);
+            const infoId = response._id;
+            localStorage.setItem('infoId', JSON.stringify(infoId));
+            console.log('User info id:', infoId);
             console.log('User info created:', response);
             navigate('/dashboard');
         } catch (error) {

@@ -29,8 +29,9 @@ export const loginUser = async (userData) => {
 };
 
 // Info API functions
-export const createUserInfo = async (userInfo) => {
+export const createUserInfo = async (userInfo, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.post('/info/create', userInfo);
         return response.data;
     } catch (error) {
@@ -38,8 +39,9 @@ export const createUserInfo = async (userInfo) => {
     }
 };
 
-export const updateUserInfo = async (id, userInfo) => {
+export const updateUserInfo = async (id, userInfo, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.put(`/info/update/${id}`, userInfo);
         return response.data;
     } catch (error) {
@@ -47,8 +49,9 @@ export const updateUserInfo = async (id, userInfo) => {
     }
 };
 
-export const getUserInfo = async (id) => {
+export const getUserInfo = async (id, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.get(`/info/get/${id}`);
         return response.data;
     } catch (error) {
@@ -57,8 +60,9 @@ export const getUserInfo = async (id) => {
 };
 
 // Training API functions
-export const createTraining = async (trainingData) => {
+export const createTraining = async (trainingData, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.post('/training/create', trainingData);
         return response.data;
     } catch (error) {
@@ -66,8 +70,9 @@ export const createTraining = async (trainingData) => {
     }
 };
 
-export const updateTraining = async (id, trainingData) => {
+export const updateTraining = async (id, trainingData, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.put(`/training/update/${id}`, trainingData);
         return response.data;
     } catch (error) {
@@ -92,5 +97,3 @@ export const getAllTrainings = async () => {
         throw error.response ? error.response.data : error.message;
     }
 };
-
-export default axiosInstance;

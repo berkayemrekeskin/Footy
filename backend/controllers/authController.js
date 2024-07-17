@@ -68,6 +68,7 @@ const registerUser = asyncHandler(async(req,res) => {
 //@access public
 
 const loginUser = asyncHandler( async (req,res) => {
+    
     const {email, password} = req.body;
 
     if(!email || !password)
@@ -95,9 +96,7 @@ const loginUser = asyncHandler( async (req,res) => {
     );
         console.log(await bcrypt.compare(password, user.password));
         res.status(200).json({
-        accessToken: { 
-            accessToken 
-        },
+        accessToken: accessToken,    
         user: {
             name: user.name,
             surname: user.surname,

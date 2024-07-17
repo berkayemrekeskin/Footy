@@ -2,6 +2,7 @@ const Info = require("../models/Info");
 const asyncHandler = require("express-async-handler");
 const { forward, midfield, defense, goalkeeper } = require("../constansts");
 const mongoose = require("mongoose");
+const { use } = require("../routes/info");
 
 //@desc Set user info
 //@route POST /api/info/:id/set
@@ -27,6 +28,9 @@ const setUserInfo = asyncHandler( async(req,res) => {
 
     const info = new Info({
         user_id: req.user.id,
+        user_name: req.user.name,
+        user_surname: req.user.surname,
+        user_email: req.user.email,
         position,
         goals,
         assists,
@@ -80,7 +84,6 @@ const getUserInfo = asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ msg: "Invalid ID format" });
     }
-
     const info = await Info.findById(req.params.id);
     if (!info) {
         res.status(404);

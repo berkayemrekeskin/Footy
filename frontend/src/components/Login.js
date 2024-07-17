@@ -3,9 +3,10 @@ import { loginUser } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        email: undefined,
+        password: undefined,
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -19,10 +20,14 @@ const Login = () => {
         try {
             const { email, password } = formData;
             const response = await loginUser({ email, password });
-            const user = response.user;
-            console.log('User logged in:', user.id);
-            localStorage.setItem('userId', user.id);
-
+            console.log('User logged in:', response);
+            console.log('Token:', response.accessToken);
+            console.log('User ID:', response.user.id);
+            localStorage.setItem('token', JSON.stringify(response.accessToken));
+            localStorage.setItem('userId', JSON.stringify(response.user.id));;
+            localStorage.setItem('email', JSON.stringify(email));
+            localStorage.setItem('name', JSON.stringify(response.user.name));
+            localStorage.setItem('surname', JSON.stringify(response.user.surname));
             navigate('/user-info');
         } catch (error) {
             console.error('Error logging in user:', error);
