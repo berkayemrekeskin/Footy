@@ -94,14 +94,28 @@ const loginUser = asyncHandler( async (req,res) => {
         {expiresIn: "1h"}
     );
         console.log(await bcrypt.compare(password, user.password));
-        res.status(200).json({accessToken});
+        res.status(200).json({
+        accessToken: { 
+            accessToken 
+        },
+        user: {
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            id: user.id,
+        }
+        });
     }
     else {
         res.status(401);
         throw new Error("Email or password is not valid");
     }
-    res.json( { message: "Login the user"});
+    //res.json( { message: "Login the user"});
 });
 
+const getUser = asyncHandler(async(req,res) => {
+    res.json(req.user);
+}
+);
 
-module.exports = { loginUser, registerUser };
+module.exports = { loginUser, registerUser, getUser };

@@ -1,0 +1,73 @@
+import React from "react";
+import { registerUser } from "../api/api";
+import "../styles/Register.css";
+import { useNavigate } from 'react-router-dom';
+
+const Register = () => {
+    const [formData, setFormData] = React.useState({
+        name: undefined,
+        surname: undefined,
+        email: undefined,
+        password: undefined,
+    });
+
+    const navigate = useNavigate();
+    
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+        const registeredUser = await registerUser(formData);
+        console.log("User registered:", registeredUser);
+        // Reset form or navigate to another page upon successful registration
+        navigate('/login');
+
+        } catch (error) {
+        console.error("Error registering user:", error);
+        // Handle error (e.g., display error message)
+        }
+    };
+    
+    return (
+        <form onSubmit={handleSubmit}>
+        <input
+            className="userInput"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+        />
+        <input
+            className="userInput"
+            type="text"
+            name="surname"
+            value={formData.surname}
+            onChange={handleChange}
+            placeholder="Surname"
+        />
+        <input
+            className="userInput"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+        />
+        <input
+            className="userInput"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+        />
+        <button type="submit">Register</button>
+        </form>
+    );
+}
+
+export default Register;

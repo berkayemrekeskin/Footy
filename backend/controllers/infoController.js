@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 const { forward, midfield, defense, goalkeeper } = require("../constansts");
 const mongoose = require("mongoose");
 
-
 //@desc Set user info
 //@route POST /api/info/:id/set
 //@access private

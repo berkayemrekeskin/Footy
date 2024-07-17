@@ -78,8 +78,19 @@ const getTraining = asyncHandler(async (req, res) => {
     res.status(200).json(training);
 });
 
+
+//@desc Get all trainings info
+//@route GET /api/training/get
+//@access private
+
+const getAllTrainings = asyncHandler(async (req, res) => {
+    const trainings = await Training.find({user_id: req.user.id});
+    res.status(200).json(trainings);
+});
+
 module.exports = {
     createTraining,
     updateTraining,
     getTraining, 
+    getAllTrainings,
 };
