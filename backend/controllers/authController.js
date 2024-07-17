@@ -3,11 +3,27 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
+/*
+    1. Get name, surname, email & password from body
+    2. Check if all given
+    3. Check mongoDB for the user using User schema , if found dont create return error
+    4. Hash the given password using bcrypt
+    5. Create the user and add to mongoDB
+*/
+
+//@desc Register a user
+//@route POST /api/auth/register
+//@access public
 
 const registerUser = asyncHandler(async(req,res) => {
 
     const { name, surname, email, password } = req.body;
 
+    if(!name || !surname || !email || !password)
+    {
+        res.status(400);
+        throw new Error("All fields are mandatory");
+    }
     try {
         let user = await User.findOne({ email });
         if(user)
@@ -38,6 +54,19 @@ const registerUser = asyncHandler(async(req,res) => {
 });
 
 
+/*
+    1. Get email & password from body
+    2. Check if both given
+    3. Check mongoDB for the user using User schema
+    4. Check the given password is correct with the found user
+    5. Create an access token for the user to login
+*/
+
+
+//@desc Login user
+//@route POST /api/auth/login
+//@access public
+
 const loginUser = asyncHandler( async (req,res) => {
     const {email, password} = req.body;
 
@@ -55,7 +84,8 @@ const loginUser = asyncHandler( async (req,res) => {
     {
         const accessToken = jwt.sign({
             user: {
-                username: user.username,
+                name: user.name,
+                surname: user.surname,
                 email: user.email,
                 id: user.id,
             },
