@@ -21,3 +21,28 @@ exports.defense = {
 exports.goalkeeper = {
     GK: "Goalkeeper",
 }
+
+exports.physicalTraining = {
+    STRENGTH: "Strength",
+    POWER: "Power",
+    ENDURANCE: "Endurance",
+    MOBILITY: "Mobility",
+    STABILITY: "Stability",
+    RECOVERY: "Recovery",
+}
+
+exports.technicalTraining = {
+    PASSING: "Passing",
+    TACKLING: "Tackling",
+    BALL_CONTROL: "Ball Control",
+    POSSESSION: "Possesion",
+    POSITIONING: "Positioning",
+    FINISHING: "Finishing", 
+}
+
+exports.tacticalTraining = {
+    SET_PIECES: "Set Pieces",
+    FORMATIONS: "Formations",
+    ATTACKING: "Attacking",
+    DEFENSIVE: "Defensive",
+}
