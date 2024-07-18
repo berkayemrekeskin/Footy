@@ -1,6 +1,7 @@
 import React from 'react';
 import { getAllTrainings, getTraining, getUserInfo } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import "../styles/Dashboard.css";
 
 const Dashboard = () => {
 
@@ -57,6 +58,7 @@ const Dashboard = () => {
     return (
       <div className="dashboard">
         {error && <div className="error">{error}</div>}
+
         <div className="user-info">
           <h2>User Info</h2>
           <p>Name: {name}</p>
@@ -94,43 +96,53 @@ const Dashboard = () => {
   else {
     return (
       <div className="dashboard">
-        {error && <div className="error">{error}</div>}
-        <div className="user-info">
-          <h2>User Info</h2>
-          <p>Name: {name}</p>
-          <p>Surname: {surname}</p>
-          <p>Email: {email}</p>
-          <p>Position: {userInfo.position}</p>
-          <p>Goals: {userInfo.goals}</p>
-          <p>Assists: {userInfo.assists}</p>
-          <p>Passes Tried: {userInfo.passes_tried}</p>
-          <p>Passes Complete: {userInfo.passes_complete}</p>
-          <p>Dribbles Tried: {userInfo.dribbles_tried}</p>
-          <p>Dribbles Complete: {userInfo.dribbles_complete}</p>
-          <p>Shots Tried: {userInfo.shots_tried}</p>
-          <p>Shots Complete: {userInfo.shots_complete}</p>
-        </div>
-        <div className="trainings">
-          <h2>Trainings</h2>
-          <ul>
-            {trainings.map((training) => (
-              <li key={training._id} onClick={() => handleTrainingSelect(training._id)}>
-                {training.type}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="selected-training">
-          <h2>Selected Training</h2>
-          {selectedTraining && (
-            <div>
-              <p>Type: {selectedTraining.type}</p>
-              <p>Duration: {selectedTraining.duration}</p>
+        <div className="left-container"> 
+          <div className='leftBar'>
+            <div className='buttonContainer'>
+              <button className="button" onClick={() => navigate('/dashboard')}>Dashboard</button>
+              <button className="button" onClick={() => navigate('/training')}>Training</button>
+              <button className="button" onClick={() => navigate('/progress')}>Progress</button>
+              <button className="button" onClick={() => navigate('/profile')}>Profile</button>
             </div>
-          )}
+          </div>
         </div>
-        <button onClick={() => navigate("/training/create")}>Create Training</button>
-
+        <div className='right-container'>
+          <div className='upperBar'>
+            <div className='logo'>
+            </div>
+          </div>
+          <div className='inner-container'>
+            <div className='inner-first'>
+              <div className="user-info">
+                <div className='user-info-card'>
+                  Hello User
+                </div>
+              </div>
+              <div className='personal-info'>
+                <div className='personal-info-card'>
+                  PERSONAL1
+                </div>
+                <div className='personal-info-card'>
+                  PERSONAL2
+                </div>
+              </div>
+            </div>
+            <div className='inner-second'>
+              <div className='training-info'>
+                <div className='training-card'>
+                  CARD
+                </div>
+                <div className='training-card'>
+                  CARD
+                </div>
+                <div className='training-card'>
+                  CARD
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     );
   }

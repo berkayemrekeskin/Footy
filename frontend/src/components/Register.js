@@ -33,39 +33,45 @@ const Register = () => {
     
     return (
         <form onSubmit={handleSubmit}>
-        <input
-            className="userInput"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Name"
-        />
-        <input
-            className="userInput"
-            type="text"
-            name="surname"
-            value={formData.surname}
-            onChange={handleChange}
-            placeholder="Surname"
-        />
-        <input
-            className="userInput"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-        />
-        <input
-            className="userInput"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-        />
-        <button type="submit">Register</button>
+            <div className="registerContainer">
+                <div className="registerTitle">Create an account</div>
+                <input
+                    className="registerInput"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Name"
+                />
+                <input
+                    className="registerInput"
+                    type="text"
+                    name="surname"
+                    value={formData.surname}
+                    onChange={handleChange}
+                    placeholder="Surname"
+                />
+                <input
+                    className="registerInput"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                />
+                <input
+                    className="registerInput"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                />
+                <div className="registerText">Sign up to get access to all features</div>
+                <div className="registerText">Already have an account? <a href="/login">Log in</a></div>
+                <button className="registerButton" type="submit">Register</button>
+            </div>
+        
         </form>
     );
 }

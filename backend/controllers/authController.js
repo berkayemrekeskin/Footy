@@ -93,7 +93,7 @@ const loginUser = asyncHandler( async (req,res) => {
             },
         }, 
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn: "1h"}
+        {expiresIn: "10h"}
         );
         const info = await Info.findOne({user_id: user.id});
         console.log(await bcrypt.compare(password, user.password));

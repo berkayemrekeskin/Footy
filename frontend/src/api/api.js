@@ -99,3 +99,24 @@ export const getAllTrainings = async (token) => {
         throw error.response ? error.response.data : error.message;
     }
 };
+
+export const getPositions = async (token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get('/positions');
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const getTrainingTypes = async (token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get('/training-types');
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+

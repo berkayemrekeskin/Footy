@@ -1,5 +1,5 @@
 exports.forward = {
-    SF: "Forward",
+    CF: "Center Forward",
     RW: "Right Wing",
     LW: "Left Wing"
 }
