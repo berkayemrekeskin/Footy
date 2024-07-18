@@ -92,6 +92,7 @@ const getUserInfo = asyncHandler(async (req, res) => {
     res.status(200).json(info);
 });
 
+
 module.exports = {
     setUserInfo,
     updateUserInfo,

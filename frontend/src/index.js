@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import UserInfoForm from './components/UserInfoForm';
+import CreateUserInfoForm from './components/CreateUserInfoForm';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import CreateTraining from './components/CreateTraining';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +19,8 @@ root.render(
         <Route path="/" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/user-info" element={<UserInfoForm />} />
+        <Route path="/user-info" element={<CreateUserInfoForm />} />
+        <Route path="/training/create" element={<CreateTraining />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

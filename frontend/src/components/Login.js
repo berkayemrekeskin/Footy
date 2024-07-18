@@ -28,7 +28,12 @@ const Login = () => {
             localStorage.setItem('email', JSON.stringify(email));
             localStorage.setItem('name', JSON.stringify(response.user.name));
             localStorage.setItem('surname', JSON.stringify(response.user.surname));
-            navigate('/user-info');
+            if(response.user.info) {
+                navigate('/dashboard');
+            }
+            else {
+                navigate('/user-info');
+            }
         } catch (error) {
             console.error('Error logging in user:', error);
             setError('Login failed');

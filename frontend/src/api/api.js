@@ -80,8 +80,9 @@ export const updateTraining = async (id, trainingData, token) => {
     }
 };
 
-export const getTraining = async (id) => {
+export const getTraining = async (id, token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.get(`/training/get/${id}`);
         return response.data;
     } catch (error) {
@@ -89,8 +90,9 @@ export const getTraining = async (id) => {
     }
 };
 
-export const getAllTrainings = async () => {
+export const getAllTrainings = async (token) => {
     try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axiosInstance.get('/training/get');
         return response.data;
     } catch (error) {

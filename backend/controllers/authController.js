@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Info = require("../models/Info");
 const asyncHandler = require("express-async-handler");
 
 /*
@@ -93,7 +94,8 @@ const loginUser = asyncHandler( async (req,res) => {
         }, 
         process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "1h"}
-    );
+        );
+        const info = await Info.findOne({user_id: user.id});
         console.log(await bcrypt.compare(password, user.password));
         res.status(200).json({
         accessToken: accessToken,    
@@ -102,6 +104,7 @@ const loginUser = asyncHandler( async (req,res) => {
             surname: user.surname,
             email: user.email,
             id: user.id,
+            info: info,
         }
         });
     }

@@ -1,57 +1,39 @@
 import React from 'react';
 import { getAllTrainings, getTraining, getUserInfo } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+
   const [userInfo, setUserInfo] = React.useState({});
   const [trainings, setTrainings] = React.useState([]);
   const [selectedTraining, setSelectedTraining] = React.useState(null);
   const [error, setError] = React.useState(null);
-  
   const [name, setName] = React.useState('');
   const [surname, setSurname] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const userId = JSON.parse(localStorage.getItem('userId'));
-        console.log('userId:', userId);
         const infoId = JSON.parse(localStorage.getItem('infoId'));
-        console.log('infoId:', infoId);
         const token = JSON.parse(localStorage.getItem('token'));
-        console.log('token:', token);
         const userInfo = await getUserInfo(infoId, token);
-        
+        const trainings = await getAllTrainings(token);
+
         setName(JSON.parse(localStorage.getItem('name')));
         setSurname(JSON.parse(localStorage.getItem('surname')));
         setEmail(JSON.parse(localStorage.getItem('email')));
-
-        console.log('userInfo:', userInfo);
-        const trainings = await getAllTrainings();
-        setTrainings(trainings);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error.message || "An error occurred while fetching data.");
-      }
-    };
-    fetchData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userId = JSON.parse(localStorage.getItem('userId'));
-        console.log('userId:', userId);
-        const infoId = JSON.parse(localStorage.getItem('infoId'));
-        console.log('infoId:', infoId);
-        const token = JSON.parse(localStorage.getItem('token'));
-        console.log('token:', token);
-        const userInfo = await getUserInfo(infoId, token);
-
         setUserInfo(userInfo);
-        console.log('userInfo:', userInfo);
-        const trainings = await getAllTrainings();
         setTrainings(trainings);
+
+        console.log('userId:', userId);
+        console.log('infoId:', infoId);
+        console.log('token:', token);
+        console.log('userInfo:', userInfo);
+        console.log('trainings:', trainings);
+
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message || "An error occurred while fetching data.");
@@ -62,14 +44,14 @@ const Dashboard = () => {
 
   const handleTrainingSelect = async (id) => {
     try {
-      const training = await getTraining(id);
+      const token = JSON.parse(localStorage.getItem('token'));
+      const training = await getTraining(id, token);
       setSelectedTraining(training);
     } catch (error) {
       console.error("Error fetching training:", error);
       setError(error.message || "An error occurred while fetching training.");
     }
   };
-
 
   if(userInfo.position === 'Goalkeeper') {
     return (
@@ -105,6 +87,7 @@ const Dashboard = () => {
             </div>
           )}
         </div>
+        <button onClick={() => navigate("/training/create")}>Create Training</button>
       </div>
     );
   }
@@ -132,7 +115,7 @@ const Dashboard = () => {
           <ul>
             {trainings.map((training) => (
               <li key={training._id} onClick={() => handleTrainingSelect(training._id)}>
-                {training.name}
+                {training.type}
               </li>
             ))}
           </ul>
@@ -141,11 +124,13 @@ const Dashboard = () => {
           <h2>Selected Training</h2>
           {selectedTraining && (
             <div>
-              <p>Name: {selectedTraining.name}</p>
-              <p>Description: {selectedTraining.description}</p>
+              <p>Type: {selectedTraining.type}</p>
+              <p>Duration: {selectedTraining.duration}</p>
             </div>
           )}
         </div>
+        <button onClick={() => navigate("/training/create")}>Create Training</button>
+
       </div>
     );
   }
