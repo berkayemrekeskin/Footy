@@ -32,7 +32,7 @@ const Login = () => {
                 navigate('/dashboard');
             }
             else {
-                navigate('/user-info');
+                navigate('/user/info/create');
             }
         } catch (error) {
             console.error('Error logging in user:', error);

@@ -28,6 +28,7 @@ export const loginUser = async (userData) => {
     }
 };
 
+
 // Info API functions
 export const createUserInfo = async (userInfo, token) => {
     try {

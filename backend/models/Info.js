@@ -6,6 +6,18 @@ const InfoSchema = new mongoose.Schema({
         required: true,
         ref: "User",
     },
+    weight: {
+        type: Number,
+        required: true,
+    },
+    height: {
+        type: Number,
+        required: true,
+    },
+    age : {
+        type: Number,
+        required: true,
+    },
     position: {
         type: String,
         required: true,

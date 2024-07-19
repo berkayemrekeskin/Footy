@@ -10,11 +10,11 @@ const mongoose = require("mongoose");
 
 const createTraining = asyncHandler( async(req,res) => {
 
-    const { type, duration } = req.body;
+    const { type, description, duration } = req.body;
 
     if(Object.values(physicalTraining).includes(type) || Object.values(technicalTraining).includes(type) || Object.values(tacticalTraining).includes(type))
     {
-        if(!duration)
+        if(!duration || !description)
             res.status(400).json({ msg: "All fields are mandatory for ", type});
     }
     else {
@@ -24,6 +24,7 @@ const createTraining = asyncHandler( async(req,res) => {
     const training = new Training({
         user_id: req.user.id,
         type,
+        description,
         duration,
     });
 

@@ -1,125 +1,177 @@
-.dashboard {
-    display: grid;
-    grid-template-columns: 1fr 20fr;
-}
-
-.leftContainer {
-    display: grid;
+.dashboard-page {
     height: 100vh;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px 1fr;
+    grid-template-areas: 
+        "side header"
+        "side main";
+    background-color: #c3c5ca;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1c1f23;
 }
 
-.leftBar {
-    background-color: #444;
+.dashboard-header {
+    background-color: #fff;
+    grid-area: header;
+    margin: 20px;
+    margin-bottom: 0px;
+    border-radius: 10px;
 }
 
-.buttonContainer {
+.dashboard-sidebar {
+    background-color: #1c1f23;
+    grid-area: side;
+    margin: 20px;
+    margin-right: 0px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    row-gap: 10px;
-    height: 100vh;
-    width: 100%;
+    justify-content: center;
+    gap: 20px;
 }
 
 .button {
-    background-color: #000;
+    background-color: #c3c5ca;
+    color: #1c1f23;
+    width: 60px;
+    height: 60px;
     border: none;
-    color: #fff;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 1rem;
-    padding: 10px;
-    text-align: center;
-    width: 100%;
 }
 
-.button:hover {
-    background-color: #333;
-}
+.dashboard-main {
+    background-color: #c3c5ca;
+    padding: 20px;
+    grid-area: main;
 
-
-.right-container {
     display: grid;
-    grid-template-rows: 1fr 8fr;
-    height: 100%;
-    width: 100%;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-areas: 
+        "c1 c1 c2 c3"
+        "c1 c1 c4 c5"
+        "c6 c6 c6 c6";
+    gap: 20px;
 }
 
-.upperBar {
-    background-color: #444;
+.card-weight, .card-user, .card-progress, .card-day, .card-weather, .card-training {
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
 }
 
-.inner-container {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-
-}
-
-.inner-first {
+.card-user {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    padding: 20px;
+    grid-area: c1;
 }
 
-.inner-second {
-    display: grid;
-}
-
-.user-info {
-    background-color: #0080ff;
-    display: grid;
-    grid-template-columns: 1fr;
+.card-weight, .card-progress, .card-day, .card-weather {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    justify-items: center;
-
 }
 
-.user-info-card {
-    background-color: #00bfff;
-    border-radius: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
-    width: 600px;
-    height: 300px;
+.card-weight {
+    gap: 20px;
+    grid-area: c2;
 }
 
-.personal-info {
-    background-color: #00bfff;
-    display: grid;
-    grid-template-columns: 350px 350px;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
+.card-progress {
+    gap: 20px;
+    grid-area: c3;
 }
 
-.personal-info-card {
-    background-color: #00ffbf;
-    border-radius: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
-    width: 300px;
-    height: 200px;
+.card-day {
+    gap: 20px;
+    grid-area: c4;
 }
 
-.training-info {
-    background-color: #00ffbf;
+.card-weather {
+    gap: 20px;
+    grid-area: c5;
+}
+
+.card-training {
+    grid-area: c6;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    align-items: center; 
-    justify-content: center;
-    justify-items: center;
+    padding: 20px;
 }
 
-.training-card {
-    background-color: #00bfff;
+.inner-card, .inner-card-position, .inner-card-user ,.inner-card-statistics {
+    background-color: #c3c5ca;
     border-radius: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    margin: 10px;
-    padding: 10px;
-    width: 400px;
-    height: 200px;
+    margin: 20px;
+}
+
+.inner-card-position, .inner-card-user, .inner-card-statistics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.weight-title, .day-title {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.weight-value, .day-value {
+    font-size: 40px;
+}
+
+.hello-user {
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.position {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.inner-card-statistics {
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.statistic-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin-top: 20px;
+}
+
+.statistic-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.statistic {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+
+
+@media (max-width: 925px) {
+    .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6,100px);
+        grid-template-areas: initial;
+    }
+
+    .card-user, .card-weight, .card-progress, .card-day, .card-weather, .card-training {
+        grid-area: initial !important;
+    }
 }

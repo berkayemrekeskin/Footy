@@ -10,6 +10,14 @@ const TrainingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
+    time: {
+        type: Date,
+        default: Date.now,
+    },
     duration: {
         type: Number,
         required: true,
@@ -18,7 +26,6 @@ const TrainingSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-
 })
 
 module.exports = mongoose.model('Training', TrainingSchema);

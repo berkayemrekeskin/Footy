@@ -1,14 +1,3 @@
-/*
-  auth:
-    register
-    login
-  profile:
-    profile?:id (self || other)
-  main:
-    dashboard
-    friends (later)
-*/
-
 const express = require("express");
 const dotenv = require("dotenv").config();
 const connectDB = require("./config/dbConnection");
@@ -26,7 +15,6 @@ app.use(cors({
 app.use(express.json());
 
 const {forward, midfield, defense, goalkeeper} = require("./constansts");
-const TRAINING_TYPES = require("./trainingTypes");
 
 app.get('/api/positions', (req, res) => {
   res.json({
@@ -37,9 +25,6 @@ app.get('/api/positions', (req, res) => {
   });
 });
 
-app.get('/api/trainingTypes', (req, res) => {
-  res.json(TRAINING_TYPES);
-});
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/info", require("./routes/info"));
 app.use("/api/training", require("./routes/training"));

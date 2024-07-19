@@ -10,16 +10,16 @@ const { use } = require("../routes/info");
 
 const setUserInfo = asyncHandler( async(req,res) => {
 
-    const { position, goals, assists, saves, goals_conceded , dribbles_tried, dribbles_complete, passes_tried, passes_complete, shots_tried, shots_complete } = req.body;
+    const { weight, height, age, position, goals, assists, saves, goals_conceded , dribbles_tried, dribbles_complete, passes_tried, passes_complete, shots_tried, shots_complete } = req.body;
 
     if(Object.values(forward).includes(position) || Object.values(midfield).includes(position) || Object.values(defense).includes(position))
     {
-        if(!goals || !assists || !dribbles_tried || !dribbles_complete || !passes_tried || !passes_complete || !shots_tried || !shots_complete)
+        if(!weight || !height || !age || !goals || !assists || !dribbles_tried || !dribbles_complete || !passes_tried || !passes_complete || !shots_tried || !shots_complete)
             res.status(400).json({ msg: "All fields are mandatory for ", position});
     }
     else if(Object.values(goalkeeper).includes(position))
     {
-        if(!saves || !goals_conceded || !passes_tried || !passes_complete)
+        if(!weight || !height || !age || !saves || !goals_conceded || !passes_tried || !passes_complete)
             res.status(400).json({ msg: "All fields are mandatory for ", position});
     }
     else {
@@ -31,6 +31,9 @@ const setUserInfo = asyncHandler( async(req,res) => {
         user_name: req.user.name,
         user_surname: req.user.surname,
         user_email: req.user.email,
+        weight,
+        height,
+        age,
         position,
         goals,
         assists,
@@ -81,6 +84,7 @@ const updateUserInfo = asyncHandler(async (req, res) => {
 //@access private
 
 const getUserInfo = asyncHandler(async (req, res) => {
+    console.log(req.params.id);
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ msg: "Invalid ID format" });
     }

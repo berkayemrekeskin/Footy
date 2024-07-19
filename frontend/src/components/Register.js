@@ -22,12 +22,10 @@ const Register = () => {
         try {
         const registeredUser = await registerUser(formData);
         console.log("User registered:", registeredUser);
-        // Reset form or navigate to another page upon successful registration
         navigate('/login');
 
         } catch (error) {
         console.error("Error registering user:", error);
-        // Handle error (e.g., display error message)
         }
     };
     

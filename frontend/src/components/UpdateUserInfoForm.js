@@ -7,8 +7,6 @@ const UserInfoForm = () => {
     const [generalPosition, setGeneralPosition] = useState('');
     const [formData, setFormData] = useState({
         weight: undefined,  
-        height: undefined,
-        age: undefined,
         position: undefined,
         goals: undefined,
         assists: undefined,
@@ -33,6 +31,11 @@ const UserInfoForm = () => {
                 const response_str = JSON.stringify(response);
                 const posArr = JSON.parse(response_str);
                 positions = posArr;
+                console.log("Poss:" , posArr);
+                console.log("Poss.Forward", posArr.forward);
+                console.log("Poss.Forward.RW", posArr.forward.RW);
+
+                console.log('Positions:', positions);
 
             } catch (error) {
                 console.error('Error fetching positions:', error);
@@ -42,7 +45,7 @@ const UserInfoForm = () => {
     }, []);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value  });
     };
 
     const handleGeneralPosition = (e) => {
@@ -62,9 +65,8 @@ const UserInfoForm = () => {
             console.log('Form data:', formData);
             const token = JSON.parse(localStorage.getItem('token'));
             const response = await createUserInfo(formData, token);
-            const userId = JSON.parse(localStorage.getItem('userId'));
             const infoId = response._id;
-            localStorage.setItem(`infoID${userId}`, JSON.stringify(infoId));
+            localStorage.setItem('infoId', JSON.stringify(infoId));
             console.log('User info id:', infoId);
             console.log('User info created:', response);
             navigate('/dashboard');
@@ -83,12 +85,10 @@ const UserInfoForm = () => {
                         <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
                             <option className="option" value="">Select position</option>
                             <option className="option" value="Right Wing">Right Wing</option>
-                            <option className="option" value="Left Wing">Left Wing</option>
-                            <option className="option" value="Center Forward">Center Forward</option>
+                            <option className="option" value="LW">Left Wing</option>
+                            <option className="option" value="CF">Center Forward</option>
                         </select>
                         <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
                         <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
                         <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
@@ -105,15 +105,13 @@ const UserInfoForm = () => {
                     <div className='userInputContainer'>
                         <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
                             <option className="option" value="">Select position</option>
-                            <option className="option" value="Center Midfield">Center Midfield</option>
-                            <option className="option" value="Right Midfield">Right Midfield</option>
-                            <option className="option" value="Left Midfield">Left Midfield</option>
-                            <option className="option" value="Center Defensive Midfield">Center Defensive Midfield</option>
-                            <option className="option" value="Center Attacking Midfield">Center Attacking Midfield</option>
+                            <option className="option" value="CM">Center Midfield</option>
+                            <option className="option" value="RM">Right Midfield</option>
+                            <option className="option" value="LM">Left Midfield</option>
+                            <option className="option" value="CDM">Center Defensive Midfield</option>
+                            <option className="option" value="CAM">Center Attacking Midfield</option>
                         </select>
                         <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
                         <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
                         <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
@@ -131,13 +129,11 @@ const UserInfoForm = () => {
                     <div className='userInputContainer'>
                         <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
                             <option className="option" value="">Select position</option>
-                            <option className="option" value="Right Back">Right Back</option>
-                            <option className="option" value="Left Back">Left Back</option>
-                            <option className="option" value="Center Back">Center Back</option>
+                            <option className="option" value="RB">Right Back</option>
+                            <option className="option" value="LB">Left Back</option>
+                            <option className="option" value="CB">Center Back</option>
                         </select>
                         <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
                         <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
                         <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
@@ -154,11 +150,9 @@ const UserInfoForm = () => {
                     <div className='userInputContainer'>
                         <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>      
                             <option className="option" value="">Select position</option>
-                            <option className="option" value="Goalkeeper">Goalkeeper</option>
+                            <option className="option" value="GK">Goalkeeper</option>
                         </select>
                         <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='userInput' type="number" name="saves" value={formData.saves} onChange={handleChange} placeholder="Saves" />
                         <input className='userInput' type="number" name="goals_conceded" value={formData.goals_conceded} onChange={handleChange} placeholder="Goals Conceded" />
                         <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
