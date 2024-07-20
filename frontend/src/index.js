@@ -7,7 +7,6 @@ import CreateUserInfoForm from './components/CreateUserInfoForm';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import CreateTraining from './components/CreateTraining';
 import Profile from './components/Profile';
 import Trainings from './components/Trainings';
 
@@ -22,7 +21,6 @@ root.render(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user/info/create" element={<CreateUserInfoForm />} />
-        <Route path="/training/create" element={<CreateTraining />} />
         <Route path="/training" element={<Trainings />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

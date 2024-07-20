@@ -56,33 +56,99 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px
+    gap: 90px;
 }
 
-.all-trainings-card {
+.all-trainings-card{
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr 0.5fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: 
-        "training training training"
-        "training training training";
-    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr ;
 }
 
-.training-card {
+.inner-card-training {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 0.5fr 1fr 0.5fr 2fr 0.5fr 0.5fr;
+    margin: 5px;
+}
+
+.training-info {
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
     grid-template-areas: 
-        "image image remove-button"
-        "image image title"
-        "image image duration"
-        "image image description"
-        "image image button"
-        "image image date";
-    justify-items: right;
-    background-color: #c3c5ca;
+        "remove-button"
+        "title"
+        "duration"
+        "description"
+        "complete-button"
+        "date";
+}
+
+.training-title {
+    font-size: 30px;
+    font-weight: 800;
+    grid-area: title;
+}
+
+.training-duration {
+    font-size: 25px;
+    font-weight: 500;
+    grid-area: duration;
+}
+
+.training-description {
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
+    padding-right: 10px;
+}
+
+.training-complete-button {
+    justify-self: end;
+    padding-bottom: 0px;
+    width: 150px;
+    height: 50px;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: complete-button;
+    cursor: pointer;
+}
+
+.training-remove-button {
+    justify-self: end;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
+    grid-area: remove-button;
+    cursor: pointer;
+}
+
+.training-date {
+    justify-self: end;
+    align-content: end;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: date;
+}
+
+.training-img {
+    width: 100px;
+    height: 100px;
+}
+.training-image {
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .label {
@@ -91,7 +157,6 @@
     height: 150px;
     display: flex;
     align-items: center;
-
 }
 
 .training-form {

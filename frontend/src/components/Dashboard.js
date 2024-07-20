@@ -3,6 +3,9 @@ import { getAllTrainings, getTraining, getUserInfo, updateTraining, deleteTraini
 import { useNavigate } from 'react-router-dom';
 import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
+import physicalImg from '../img/physical.png';
+import tacticalImg from '../img/tactical.png';
+import technicalImg from '../img/technical.png';
 
 const Dashboard = () => {
 
@@ -173,19 +176,32 @@ const Dashboard = () => {
 
   function renderTraining() {
     return trainings.slice(0,3).map(training => {
+      var img;
+      if(training.type === "Strength" || training.type === "Power" || training.type === "Endurance" || training.type === "Mobility" || training.type === "Stability" || training.type === "Recovery")
+        img = <img className="training-img" src={physicalImg} alt='profile' />;
+      else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing")
+        img = <img className="training-img" src={technicalImg} alt='profile' />;
+      else if(training.type === "Set Pieces" || training.type === "Formations" || training.type === "Attacking" || training.type === "Defensive")
+        img = <img className="training-img" src={tacticalImg} alt='profile' />;
+      
         return (
           <div key={training._id} className='inner-card-training'>
-            <div className='training-image'>image</div>
-            <div className='training-remove-button'>
-              <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>Remove</button>
+            <div className='training-image'>
+              {img}
             </div>
-            <div className='training-title'>{training.type}</div>
-            <div className='training-duration'>{training.duration} minutes</div>
-            <div className='training-description'>{training.description}</div>
-            <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
-            <div className='training-complete-button'>
-              <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
+            <div className="training-info">
+              <div className='training-remove-button'>
+                <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>X</button>
+              </div>
+              <div className='training-title'>{training.type}</div>
+              <div className='training-duration'>{training.duration} minutes</div>
+              <div className='training-description'>{training.description}</div>
+              <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
+              <div className='training-complete-button'>
+                <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
+              </div>
             </div>
+            
           </div>
         );
     });
@@ -194,11 +210,10 @@ const Dashboard = () => {
   return (
     <>
       <body className='dashboard-page'>
-        <header className='dashboard-header'> Header </header>
+        <header className='dashboard-header'> </header>
         <section className='dashboard-sidebar'> 
           <button className='button' onClick={() => navigate('/dashboard')}> D </button>
           <button className='button' onClick={() => navigate('/training')}> T </button>
-          <button className='button' onClick={() => navigate('/nutritions')}> N </button>
           <button className='button' onClick={() => navigate('/profile')}> P </button>
         </section>
         <main className='dashboard-main'> 
@@ -210,7 +225,9 @@ const Dashboard = () => {
             <div className='position'> Position: {userInfo.position}</div>
           </div>
           <div className='inner-card-focus'> 
-              <div className='focus-image'> IMAGE </div>
+              <div className='focus-image'> 
+                <img className="focus-img" src='https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' alt='profile' />  
+              </div>
               <div className='focus-title'> {whatToFocus()} </div>
           </div>
           <div className='inner-card-statistics'> 

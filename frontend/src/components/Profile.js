@@ -182,11 +182,10 @@ const Profile = () => {
     return (
         <div>
             <div className='profile-page'>
-                <header className='profile-header'> Header </header>
+                <header className='profile-header'> </header>
                 <section className='profile-sidebar'> 
                     <button className='button' onClick={() => navigate('/dashboard')}> D </button>
-                    <button className='button' onClick={() => navigate('/training/create')}> T </button>
-                    <button className='button' onClick={() => navigate('/nutrition')}> N </button>
+                    <button className='button' onClick={() => navigate('/training')}> T </button>
                     <button className='button' onClick={() => navigate('/profile')}> P </button>
                 </section>
                 <main className='profile-main'> 

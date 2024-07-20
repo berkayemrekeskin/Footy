@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { createTraining, getAllTrainings, updateTraining, deleteTraining } from "../api/api";
 import "../styles/Trainings.css";
 import { Circle } from 'rc-progress';
+import physicalImg from '../img/physical.png';
+import tacticalImg from '../img/tactical.png';
+import technicalImg from '../img/technical.png';
 
 const Training = () => {
 
@@ -126,21 +129,33 @@ const Training = () => {
 
     function renderTraining() {
         return trainings.slice(0,6).map(training => {
+            var img;
+            if(training.type === "Strength" || training.type === "Power" || training.type === "Endurance" || training.type === "Mobility" || training.type === "Stability" || training.type === "Recovery")
+                img = <img className="training-img" src={physicalImg} alt='profile' />;
+            else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing")
+                img = <img className="training-img" src={technicalImg} alt='profile' />;
+            else if(training.type === "Set Pieces" || training.type === "Formations" || training.type === "Attacking" || training.type === "Defensive")
+                img = <img className="training-img" src={tacticalImg} alt='profile' />;
             return (
-              <div key={training._id} className='training-card'>
-                <div className='training-image'>image</div>
-                <div className='training-remove-button'>
-                  <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>Remove</button>
+                <div key={training._id} className='inner-card-training'>
+                  <div className='training-image'>
+                    {img}
+                  </div>
+                  <div className="training-info">
+                    <div className='training-remove-button'>
+                      <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>X</button>
+                    </div>
+                    <div className='training-title'>{training.type}</div>
+                    <div className='training-duration'>{training.duration} minutes</div>
+                    <div className='training-description'>{training.description}</div>
+                    <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
+                    <div className='training-complete-button'>
+                      <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
+                    </div>
+                  </div>
+                  
                 </div>
-                <div className='training-title'>{training.type}</div>
-                <div className='training-duration'>{training.duration} minutes</div>
-                <div className='training-description'>{training.description}</div>
-                <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
-                <div className='training-complete-button'>
-                  <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
-                </div>
-              </div>
-            );
+              );
         });
       }
 
@@ -152,7 +167,6 @@ const Training = () => {
                 <sidebar className="training-sidebar">
                     <button className='button' onClick={() => navigate('/dashboard')}> D </button>
                     <button className='button' onClick={() => navigate('/training')}> T </button>
-                    <button className='button' onClick={() => navigate('/nutritions')}> N </button>
                     <button className='button' onClick={() => navigate('/profile')}> P </button>
                 </sidebar>
                 <main className="training-main">
