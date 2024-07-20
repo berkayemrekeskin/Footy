@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllTrainings, getTraining, getUserInfo } from '../api/api';
+import { getAllTrainings, getTraining, getUserInfo, updateTraining, deleteTraining} from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [name, setName] = React.useState('');
   const [surname, setSurname] = React.useState('');
   const [date, setDate] = React.useState('');
+  const [trainingStatistic, setTrainingStatistic] = React.useState(0);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -27,11 +28,8 @@ const Dashboard = () => {
         currentDate = currentDate.toISOString().slice(0, 10);
         currentDate = currentDate.split('-').reverse().join('/');
         setDate(currentDate);
-
-
         setName(JSON.parse(localStorage.getItem('name')));
         setSurname(JSON.parse(localStorage.getItem('surname')));
-
         setUserInfo(userInfo);
         setTrainings(trainings);
 
@@ -41,6 +39,18 @@ const Dashboard = () => {
         console.log('userInfo:', userInfo);
         console.log('trainings:', trainings);
 
+        let count = 0;
+
+        for(let i = 0; i < trainings.length; i++)
+        {
+          if(trainings[i].status === true)
+          {
+            count++;
+          }
+        }
+
+        setTrainingStatistic(count / trainings.length * 100);
+
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message || "An error occurred while fetching data.");
@@ -48,6 +58,138 @@ const Dashboard = () => {
     };
     fetchData();
   }, []);
+
+  const whatToFocus = () => {
+    if(userInfo.position === 'Goalkeeper')
+    {
+      if(userInfo.goals_conceded / userInfo.saves * 100 > 50)
+        return 'Focus on your saves';
+      else if(userInfo.passes_complete / userInfo.passes_tried * 100 < 50)
+        return 'Focus on your passes';
+      else
+        return 'You are doing great';
+    }
+    else
+    {
+      if(userInfo.shots_complete / userInfo.shots_tried * 100 < 50)
+        return 'Focus on your shots';
+      else if(userInfo.passes_complete / userInfo.passes_tried * 100 < 50)
+        return 'Focus on your passes';
+      else if(userInfo.dribbles_complete / userInfo.dribbles_tried * 100 < 50)
+        return 'Focus on your dribbles';
+      else 
+        return 'You are doing great';
+    }
+  }
+
+  const handleStatusUpdate = async (trainingId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const response = await updateTraining(trainingId, { status: true }, token);
+      console.log('Training status updated:', response);
+      // Update the trainings state to mark the training as completed
+      setTrainings((prevTrainings) => prevTrainings.map(training =>
+        training._id === trainingId ? { ...training, status: true } : training
+      ));
+      setTrainingStatistic(prevStat => prevStat + (100 / trainings.length));
+    } catch (error) {
+      console.error('Error updating training status:', error);
+    }
+  };
+
+  const handleRemoveTraining = async (trainingId) => {
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const response = await deleteTraining(trainingId, token);
+      console.log('Training removed:', response);
+      // Update the trainings state to remove the training
+      setTrainings((prevTrainings) => prevTrainings.filter(training => training._id !== trainingId));
+    } catch (error) {
+      console.error('Error removing training:', error);
+    }
+  };
+
+
+  function renderStatistics() {
+    if(userInfo.position === 'Goalkeeper') {
+      return (
+        <div className='statistic-container'>
+          <div className='statistic'>
+            <Circle
+              percent={userInfo.goals_conceded / userInfo.saves * 100} 
+              strokeColor="#1c1f23"
+              strokeWidth={6}
+              trailWidth={6}
+            />
+            <div>Saves</div>
+          </div>
+          <div className='statistic'>
+            <Circle
+              percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
+              strokeColor="#1c1f23"
+              strokeWidth={6}
+              trailWidth={6}
+            />
+            <div>Passes</div>
+          </div>
+        </div>
+      );
+    }
+    else 
+    {
+        return (
+          <div className='statistic-container'>
+            <div className='statistic'>
+              <Circle
+                percent={userInfo.shots_complete / userInfo.shots_tried * 100} 
+                strokeColor="#1c1f23"
+                strokeWidth={6}
+                trailWidth={6}
+              />
+              <div>Shots</div>
+            </div>
+            <div className='statistic'>
+              <Circle
+                percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
+                strokeColor="#1c1f23"
+                strokeWidth={6}
+                trailWidth={6}
+              />
+              <div>Passes</div>
+            </div>
+              <div className='statistic'>
+                <Circle
+                  percent={userInfo.dribbles_complete / userInfo.dribbles_tried * 100} 
+                  strokeColor="#1c1f23"
+                  strokeWidth={6}
+                  trailWidth={6}
+                />
+              <div>Dribbles</div>
+            </div>
+          </div>
+        );
+    }
+  }
+
+  function renderTraining() {
+    return trainings.slice(0,3).map(training => {
+        return (
+          <div key={training._id} className='inner-card-training'>
+            <div className='training-image'>image</div>
+            <div className='training-remove-button'>
+              <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>Remove</button>
+            </div>
+            <div className='training-title'>{training.type}</div>
+            <div className='training-duration'>{training.duration} minutes</div>
+            <div className='training-description'>{training.description}</div>
+            <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
+            <div className='training-complete-button'>
+              <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
+            </div>
+          </div>
+        );
+    });
+  }
 
   return (
     <>
@@ -67,39 +209,14 @@ const Dashboard = () => {
           <div className='inner-card-position'>
             <div className='position'> Position: {userInfo.position}</div>
           </div>
-          <div className='inner-card'> What to focus</div>
+          <div className='inner-card-focus'> 
+              <div className='focus-image'> IMAGE </div>
+              <div className='focus-title'> {whatToFocus()} </div>
+          </div>
           <div className='inner-card-statistics'> 
             <div className='statistic-title'> Statistics </div>
-            <div className='statistic-container'>
-              <div className='statistic'>
-                <Circle
-                  percent={userInfo.shots_complete / userInfo.shots_tried * 100} 
-                  strokeColor="#1c1f23"
-                  strokeWidth={6}
-                  trailWidth={6}
-                />
-                <div>Shots</div>
-              </div>
-              <div className='statistic'>
-                <Circle
-                  percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
-                  strokeColor="#1c1f23"
-                  strokeWidth={6}
-                  trailWidth={6}
-                />
-                <div>Passes</div>
-              </div>
-                <div className='statistic'>
-                  <Circle
-                    percent={userInfo.dribbles_complete / userInfo.dribbles_tried * 100} 
-                    strokeColor="#1c1f23"
-                    strokeWidth={6}
-                    trailWidth={6}
-                  />
-                <div>Dribbles</div>
-              </div>
+              {renderStatistics()}
             </div>
-          </div>
         </div>
         <div className='card-weight'>
           <div className='weight-title'> Weight</div>
@@ -113,32 +230,19 @@ const Dashboard = () => {
           <div className='day-title'>Day</div>
           <div className='day-value'> { date } </div>
         </div>
-        <div className='card-weather'>Current Weather</div>
+        <div className='card-training-complete'>
+          <div className='statistic-training'>
+              <Circle
+                percent={trainingStatistic} 
+                strokeColor="#1c1f23"
+                strokeWidth={6}
+                trailWidth={6}
+              />
+              <div>Trainings</div>
+            </div>
+        </div>
         <div className='card-training'>
-          <div className='inner-card'>
-            <div className='training'>
-              <div className='training-title'>Training 1</div>
-              <div className='training-duration'>Duration</div>
-              <div className='training-description'>Description</div>
-              <div className='training-date'>Date</div>
-            </div>
-          </div>
-          <div className='inner-card'>
-            <div className='training'>
-              <div className='training-title'>Training 2</div>
-              <div className='training-duration'>Duration</div>
-              <div className='training-description'>Description</div>
-              <div className='training-date'>Date</div>
-            </div>
-          </div>
-          <div className='inner-card'>
-            <div className='training'>
-              <div className='training-title'>Training 3</div>
-              <div className='training-duration'>Duration</div>
-              <div className='training-description'>Description</div>
-              <div className='training-date'>Date</div>
-            </div>
-          </div>
+          {renderTraining()}
         </div>
         </main>
       </body>

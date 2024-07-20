@@ -8,12 +8,12 @@ exports.midfield = {
     CM: "Center Midfield",
     RM: "Right Midfield",
     LM: "Left Midfield",
-    CAM: "Attacking Midfield",
-    CDM: "Deffensive Midfield",
+    CAM: "Center Attacking Midfield",
+    CDM: "Center Defensive Midfield",
 }
 
 exports.defense = {
-    STP: "Stoper",
+    CB: "Center Back",
     RB: "Right Back",
     LB: "Left Back",
 }

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CreateTraining = () => {
     const [formData, setFormData] = React.useState({
         type: undefined,
+        description: undefined,
         duration: undefined,
         status: false,
     });
@@ -28,21 +29,35 @@ const CreateTraining = () => {
     
     return (
         <form onSubmit={handleSubmit}>
-        <input
+        <h1>Create Training</h1>
+        <label>
+            Type:
+            <input
             type="text"
             name="type"
             value={formData.type}
             onChange={handleChange}
-            placeholder="Type"
-        />
-        <input
-            type="number"
+            />
+        </label>
+        <label>
+            Description:
+            <input
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            />
+        </label>
+        <label>
+            Duration:
+            <input
+            type="text"
             name="duration"
             value={formData.duration}
             onChange={handleChange}
-            placeholder="Duration"
-        />
-        <button type="submit">Create Training</button>
+            />
+        </label>
+        <button type="submit">Create</button>
         </form>
     );
 }

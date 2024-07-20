@@ -81,6 +81,16 @@ export const updateTraining = async (id, trainingData, token) => {
     }
 };
 
+export const deleteTraining = async (id, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.delete(`/training/delete/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
 export const getTraining = async (id, token) => {
     try {
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;

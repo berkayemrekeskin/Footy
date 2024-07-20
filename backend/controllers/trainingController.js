@@ -62,6 +62,25 @@ const updateTraining = asyncHandler(async (req, res) => {
     res.status(200).json(updatedTraining);
 });
 
+const deleteTraining = asyncHandler(async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ msg: "Invalid ID format" });
+    }
+
+    const training = await Training.findById(req.params.id);
+    if (!training) {
+        res.status(404);
+        throw new Error("Training not found!");
+    }
+    if (training.user_id.toString() !== req.user.id) {
+        res.status(403);
+        throw new Error("User doesn't have permission");
+    }
+
+    await Training.findByIdAndDelete(req.params.id);
+    res.status(200).json({ msg: "Training deleted successfully" });
+});
+
 //@desc Get training info
 //@route GET /api/training/get/:id
 //@access private
@@ -94,4 +113,5 @@ module.exports = {
     updateTraining,
     getTraining, 
     getAllTrainings,
+    deleteTraining,
 };

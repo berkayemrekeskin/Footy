@@ -57,7 +57,7 @@
     gap: 20px;
 }
 
-.card-weight, .card-user, .card-progress, .card-day, .card-weather, .card-training {
+.card-weight, .card-user, .card-progress, .card-day, .card-training-complete, .card-training {
     background-color: #fff;
     border-radius: 10px;
     display: flex;
@@ -72,7 +72,7 @@
     grid-area: c1;
 }
 
-.card-weight, .card-progress, .card-day, .card-weather {
+.card-weight, .card-progress, .card-day, .card-training-complete {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,7 +94,7 @@
     grid-area: c4;
 }
 
-.card-weather {
+.card-training-complete {
     gap: 20px;
     grid-area: c5;
 }
@@ -106,7 +106,12 @@
     padding: 20px;
 }
 
-.inner-card, .inner-card-position, .inner-card-user ,.inner-card-statistics {
+.trainings-title {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.inner-card, .inner-card-position, .inner-card-user ,.inner-card-statistics, .inner-card-training, .inner-card-focus {
     background-color: #c3c5ca;
     border-radius: 10px;
     margin: 20px;
@@ -117,6 +122,31 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.inner-card-focus {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "image title"
+        "image title";
+
+    align-items: center;
+}
+
+.focus-image {
+    width: 150px;
+    height: 150px;
+    grid-area: image;
+    padding: 20px;
+}
+
+.focus-title {
+    font-size: 30px;
+    font-weight: 800;
+    grid-area: title;
+    font-style: italic;
 }
 
 .weight-title, .day-title {
@@ -163,6 +193,79 @@
     text-align: center;
 }
 
+.statistic-training {
+    width: 120px;
+    height: 120px;
+    text-align: center;
+}
+
+
+.inner-card-training {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 0.5fr 1fr 0.5fr 2fr 0.5fr 0.5fr;
+    grid-template-areas: 
+        "image image remove-button"
+        "image image title"
+        "image image duration"
+        "image image description"
+        "image image button"
+        "image image date";
+    justify-items: right;
+}
+
+.training-title {
+    padding: 20px;
+    padding-bottom: 0px;
+    font-size: 30px;
+    font-weight: 800;
+    grid-area: title;
+}
+
+.training-duration {
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 25px;
+    font-weight: 500;
+    grid-area: duration;
+}
+
+.training-description {
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: description;
+}
+
+.training-complete-button {
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: button;
+}
+
+.training-remove-button {
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: remove-button;
+}
+
+.training-date {
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+    grid-area: date;
+}
 
 @media (max-width: 925px) {
     .main {

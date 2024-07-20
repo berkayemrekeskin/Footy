@@ -1,0 +1,127 @@
+.training-page {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px 1fr;
+    grid-template-areas: 
+        "side header"
+        "side main";
+    background-color: #c3c5ca;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1c1f23;
+}
+
+.training-header {
+    background-color: #fff;
+    grid-area: header;
+    margin: 20px;
+    margin-bottom: 0px;
+    border-radius: 10px;
+}
+
+.training-sidebar {
+    background-color: #1c1f23;
+    grid-area: side;
+    margin: 20px;
+    margin-right: 0px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.training-main {
+    background-color: #c3c5ca;
+    padding: 20px;
+    grid-area: main;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    gap: 20px;
+}
+
+.training-statistic {
+    width: 150px;
+    height: 150px;
+}
+
+.create-training-card, .all-trainings-card{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.create-training-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px
+}
+
+.all-trainings-card {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "training training training"
+        "training training training";
+    gap: 10px;
+}
+
+.training-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 0.5fr 1fr 0.5fr 2fr 0.5fr 0.5fr;
+    grid-template-areas: 
+        "image image remove-button"
+        "image image title"
+        "image image duration"
+        "image image description"
+        "image image button"
+        "image image date";
+    justify-items: right;
+    background-color: #c3c5ca;
+    border-radius: 10px;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: 800;
+    height: 150px;
+    display: flex;
+    align-items: center;
+
+}
+
+.training-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #c3c5ca;
+    border-radius: 10px;
+}
+
+.training-input {
+    width: 400px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 10px;
+    border:none;
+    padding: 10px;
+    margin: 10px;
+}
+
+.training-create-button {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 10px;
+    border:none;
+    background-color: #1c1f23;
+    color: #fff;
+    margin-right: 10px;
+}
+
+

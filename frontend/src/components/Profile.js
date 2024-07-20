@@ -2,6 +2,7 @@ import React from 'react';
 import { getUserInfo, updateUserInfo} from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
+import { Circle } from 'rc-progress';
 
 const Profile = () => {
     const [userInfo, setUserInfo] = React.useState(null);
@@ -74,37 +75,105 @@ const Profile = () => {
         if (userInfo.position === 'Goalkeeper') {
             return (
                 <div>
-                    <form onSubmit={handleSubmit}>
+                    <form className="form" onSubmit={handleSubmit}>
                         <input className='valueInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
                         <input className='valueInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='valueInput' type="number" name="saves" value={formData.saves} onChange={handleChange} placeholder="Saves" />
+                    </form>
+                    <form className="form" onSubmit={handleSubmit}>
                         <input className='valueInput' type="number" name="goals_conceded" value={formData.goals_conceded} onChange={handleChange} placeholder="Goals Conceded" />
                         <input className='valueInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
                         <input className='valueInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
-                        <button className='button' type="submit">Save</button>
+                        <button className='button-pf' type="submit">Save</button>
                     </form>
                 </div>
             );
         } else {
             return (
-                <div>
-                    <form onSubmit={handleSubmit}>
+                <div className='form-div'>
+                    <form className="form" onSubmit={handleSubmit}>
                         <input className='valueInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
                         <input className='valueInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
                         <input className='valueInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
                         <input className='valueInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
                         <input className='valueInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
+                    </form>
+                    <form className="form" onSubmit={handleSubmit}>
                         <input className='valueInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
                         <input className='valueInput' type="number" name="dribbles_tried" value={formData.dribbles_tried} onChange={handleChange} placeholder="Dribbles Tried" />
                         <input className='valueInput' type="number" name="dribbles_complete" value={formData.dribbles_complete} onChange={handleChange} placeholder="Dribbles Complete" />
                         <input className='valueInput' type="number" name="shots_tried" value={formData.shots_tried} onChange={handleChange} placeholder="Shots Tried" />
                         <input className='valueInput' type="number" name="shots_complete" value={formData.shots_complete} onChange={handleChange} placeholder="Shots Complete" />
-                        <button className='button' type="submit">Save</button>
+                        <button className='button-pf' type="submit">Save</button>
+                   
                     </form>
+                    <div>
+                    </div>
                 </div>
             );
         }
     }
+
+    function renderStatistics() {
+        if(userInfo.position === 'Goalkeeper') {
+          return (
+            <div className='statistic-container-pf'>
+              <div className='statistic-pf'>
+                <Circle
+                  percent={userInfo.goals_conceded / userInfo.saves * 100} 
+                  strokeColor="#1c1f23"
+                  strokeWidth={6}
+                  trailWidth={6}
+                />
+                <div><b>Saves</b></div>
+              </div>
+              <div className='statistic-pf'>
+                <Circle
+                  percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
+                  strokeColor="#1c1f23"
+                  strokeWidth={6}
+                  trailWidth={6}
+                />
+                <div><b>Passes</b></div>
+              </div>
+            </div>
+          );
+        }
+        else 
+        {
+            return (
+              <div className='statistic-container-pf'>
+                <div className='statistic-pf'>
+                  <Circle
+                    percent={userInfo.shots_complete / userInfo.shots_tried * 100} 
+                    strokeColor="#1c1f23"
+                    strokeWidth={6}
+                    trailWidth={6}
+                  />
+                  <div><b>Shots</b></div>
+                </div>
+                <div className='statistic-pf'>
+                  <Circle
+                    percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
+                    strokeColor="#1c1f23"
+                    strokeWidth={6}
+                    trailWidth={6}
+                  />
+                  <div><b>Passes</b></div>
+                </div>
+                  <div className='statistic-pf'>
+                    <Circle
+                      percent={userInfo.dribbles_complete / userInfo.dribbles_tried * 100} 
+                      strokeColor="#1c1f23"
+                      strokeWidth={6}
+                      trailWidth={6}
+                    />
+                  <div><b>Dribbles</b></div>
+                </div>
+              </div>
+            );
+        }
+      }
 
     if (!userInfo) {
         return <div>Loading...</div>;
@@ -116,22 +185,27 @@ const Profile = () => {
                 <header className='profile-header'> Header </header>
                 <section className='profile-sidebar'> 
                     <button className='button' onClick={() => navigate('/dashboard')}> D </button>
+                    <button className='button' onClick={() => navigate('/training/create')}> T </button>
+                    <button className='button' onClick={() => navigate('/nutrition')}> N </button>
                     <button className='button' onClick={() => navigate('/profile')}> P </button>
-                    <button className='button' onClick={() => navigate('/training')}> T </button>
-                    <button className='button' onClick={() => navigate('/logout')}> L </button>
                 </section>
                 <main className='profile-main'> 
                     <div className="card-left">
+                      <div className="background-card-left">
                         <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" className='profile-avatar' />
-                        <p className='profile-text'><b>{name} {surname}</b></p>
-                        <p className='profile-text'>{email}</p>
-                        <p className='profile-text'>Position: {userInfo.position}</p>
-                        <p className='profile-text'>Age: {userInfo.age}</p>
-                        <p className='profile-text'>Height: {userInfo.height}</p>
-                        <p className='profile-text'>Weight: {userInfo.weight}</p>
+                          <p className='profile-text'><b>{name} {surname}</b></p>
+                          <p className='profile-text'>{email}</p>
+                          <p className='profile-text'>Position: {userInfo.position}</p>
+                          <p className='profile-text'>Age: {userInfo.age}</p>
+                          <p className='profile-text'>Height: {userInfo.height}</p>
+                          <p className='profile-text'>Weight: {userInfo.weight}</p>
+                      </div>
                     </div>
                     <div className="card-right"> 
+                      <div className='background-card-right'>
+                        {renderStatistics()}
                         {renderPosition()}
+                      </div>  
                     </div>
                 </main>
                 {error && <div className="error">{error}</div>}

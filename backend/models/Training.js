@@ -14,13 +14,13 @@ const TrainingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    time: {
-        type: Date,
-        default: Date.now,
-    },
     duration: {
         type: Number,
         required: true,
+    },
+    time: {
+        type: Date,
+        default: Date.now,
     },
     status: {
         type: Boolean,
