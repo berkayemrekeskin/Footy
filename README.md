@@ -19,14 +19,20 @@
    - Basic details (name, age, weight etc.)
    - Position-specific attributes (e.g., goals for forwards, assists for midfielders)
 
+<img src="./ss/user.png" alt="Player Information" width="500"/>
+
 4. **Training Forms**
    - Custom training plans based on player position
    - Track training progress
    - Submit training reports
 
+<img src="./ss/training.png" alt="Player Information" width="500"/>
+
 5. **Complete Training Statistics**
    - Aggregate data on training sessions
    - Performance analysis
+  
+<img src="./ss/dashboard.png" alt="Player Information" width="500"/>
 
 6. **Focus Areas According to Player Statistics**
    - Personalized training recommendations
