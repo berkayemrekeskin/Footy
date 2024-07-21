@@ -7,6 +7,7 @@ import physicalImg from '../img/physical.png';
 import tacticalImg from '../img/tactical.png';
 import technicalImg from '../img/technical.png';
 
+
 const Dashboard = () => {
 
   const [userInfo, setUserInfo] = React.useState({});
@@ -210,7 +211,9 @@ const Dashboard = () => {
   return (
     <>
       <body className='dashboard-page'>
-        <header className='dashboard-header'> </header>
+        <header className='dashboard-header'> 
+          <p className='logo-title'>Footy.</p>
+        </header>
         <section className='dashboard-sidebar'> 
           <button className='button' onClick={() => navigate('/dashboard')}> D </button>
           <button className='button' onClick={() => navigate('/training')}> T </button>
@@ -226,12 +229,12 @@ const Dashboard = () => {
           </div>
           <div className='inner-card-focus'> 
               <div className='focus-image'> 
-                <img className="focus-img" src='https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' alt='profile' />  
+                <img className="focus-img" src={technicalImg} alt='profile' />  
               </div>
               <div className='focus-title'> {whatToFocus()} </div>
           </div>
           <div className='inner-card-statistics'> 
-            <div className='statistic-title'> Statistics </div>
+            <div className='statistic-title'> Statistics</div>
               {renderStatistics()}
             </div>
         </div>

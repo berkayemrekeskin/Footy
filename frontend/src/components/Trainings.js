@@ -163,6 +163,7 @@ const Training = () => {
         <>
             <body className="training-page"> 
                 <header className="training-header">
+                  <p className='logo-title'>Footy.</p>
                 </header>
                 <sidebar className="training-sidebar">
                     <button className='button' onClick={() => navigate('/dashboard')}> D </button>

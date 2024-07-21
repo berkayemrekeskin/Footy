@@ -17,6 +17,9 @@
     margin: 20px;
     margin-bottom: 0px;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .profile-sidebar {

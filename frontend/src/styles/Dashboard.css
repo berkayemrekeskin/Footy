@@ -17,6 +17,16 @@
     margin: 20px;
     margin-bottom: 0px;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-title {
+    font-family: "League Spartan";
+    font-size: 40px;
+    font-weight: 800;
+    margin-left: 20px;
 }
 
 .dashboard-sidebar {
@@ -40,6 +50,7 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .dashboard-main {
