@@ -4,7 +4,7 @@ const infoController = require("../controllers/infoController");
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.use(authMiddleware);
-router.post("/create", authMiddleware, infoController.setUserInfo);
+router.post("/create", authMiddleware, infoController.createUserInfo);
 router.put("/update/:id", authMiddleware, infoController.updateUserInfo);
 router.get("/get/:id", authMiddleware, infoController.getUserInfo);
 

@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = React.useState({
-        name: undefined,
-        surname: undefined,
+        username: undefined,
         email: undefined,
         password: undefined,
     });
@@ -21,9 +20,9 @@ const Register = () => {
         e.preventDefault();
         try {
         const registeredUser = await registerUser(formData);
+        localStorage.setItem('username', JSON.stringify(registerUser.username));
         console.log("User registered:", registeredUser);
         navigate('/login');
-
         } catch (error) {
         console.error("Error registering user:", error);
         }
@@ -36,18 +35,10 @@ const Register = () => {
                 <input
                     className="registerInput"
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="username"
+                    value={formData.username}
                     onChange={handleChange}
-                    placeholder="Name"
-                />
-                <input
-                    className="registerInput"
-                    type="text"
-                    name="surname"
-                    value={formData.surname}
-                    onChange={handleChange}
-                    placeholder="Surname"
+                    placeholder="Username"
                 />
                 <input
                     className="registerInput"
@@ -65,9 +56,8 @@ const Register = () => {
                     onChange={handleChange}
                     placeholder="Password"
                 />
-                <div className="registerText">Sign up to get access to all features</div>
-                <div className="registerText">Already have an account? <a href="/login">Log in</a></div>
                 <button className="registerButton" type="submit">Register</button>
+                <div className="registerText">Already have an account? <a href="/login">Log in</a></div>
             </div>
         
         </form>

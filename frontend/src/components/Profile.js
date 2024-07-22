@@ -35,9 +35,6 @@ const Profile = () => {
                 const infoId = JSON.parse(localStorage.getItem(`infoID${userId}`));
                 const token = JSON.parse(localStorage.getItem('token'));
                 const userInfo = await getUserInfo(infoId, token);
-                setName(JSON.parse(localStorage.getItem('name')));
-                setSurname(JSON.parse(localStorage.getItem('surname')));
-                setEmail(JSON.parse(localStorage.getItem('email')));
                 setUserInfo(userInfo);
                 console.log('userInfo:', userInfo);
             } catch (error) {

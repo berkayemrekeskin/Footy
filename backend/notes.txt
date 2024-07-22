@@ -1,0 +1,53 @@
+    IDEAS:
+        Weight - Height Index Calculation
+        Suggesting training according to weakness
+    
+    (+)User Auth: -> Model
+        -username +
+        -email +
+        -password +
+            -password reset +
+
+    (+)Personal Information: -> Model
+        -Name +
+        -Surname +
+        -Age +
+        -Weight +
+        -Height +
+        -Preffered Feet +
+
+    (+)Training Statistics (One training): -> Model
+        -Training type +
+        -Training effects (technical effects. (exp. shooting, passing ...))
+        -Training effect value
+        -Training duration + 
+        -Training description +
+        -Training date +
+        -Training status +
+    
+    General Training Statistics (Monthly)
+        -Total completed trainings
+        -Which part is improved (technical)
+
+    Match Statistics (One match):
+        -Minutes played+
+        -Goals scored+
+        -Assist made+
+        -Yellow cards+
+        -Red cards+
+        -Total shots & Shots on target+
+        -Total passes & Passes complete+
+        -Total dribbles & Dribbles complete+
+        -Total tackles & Tackles complete+
+        -Saves & Goals conceded(for gk)+  
+
+    General Match Statistics (Monthly):
+        -Total Goals
+        -Total Assists
+        -xG
+        -xA
+        -xP
+        -xD
+        -Total Saves (for gk)
+        -xS (for gk)
+    

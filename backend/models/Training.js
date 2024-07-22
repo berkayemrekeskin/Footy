@@ -10,6 +10,14 @@ const TrainingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    effect: {
+        type: String,
+        required: true,
+    },
+    effect_value: {
+        type: Number,
+        required: true,
+    },
     description: {
         type: String,
         required: true,
@@ -18,7 +26,7 @@ const TrainingSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    time: {
+    date: {
         type: Date,
         default: Date.now,
     },

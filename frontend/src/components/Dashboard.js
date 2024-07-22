@@ -1,21 +1,21 @@
 import React from 'react';
-import { getAllTrainings, getTraining, getUserInfo, updateTraining, deleteTraining} from '../api/api';
+import { getAllTrainings, getTraining, getUserInfo, getAllMatches, getMatch} from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
-import physicalImg from '../img/physical.png';
-import tacticalImg from '../img/tactical.png';
-import technicalImg from '../img/technical.png';
-
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import forward from "../img/forward.png";
+import midfielder from "../img/midfielder.png";
+import defender from "../img/defender.png";
+import goalkeeper from "../img/goalkeeper.png";
 
 const Dashboard = () => {
 
   const [userInfo, setUserInfo] = React.useState({});
+  const [updatedInfo, setUpdatedInfo] = React.useState({});
   const [trainings, setTrainings] = React.useState([]);
-  const [selectedTraining, setSelectedTraining] = React.useState(null);
+  const [matches, setMatches] = React.useState([]);
   const [error, setError] = React.useState(null);
-  const [name, setName] = React.useState('');
-  const [surname, setSurname] = React.useState('');
   const [date, setDate] = React.useState('');
   const [trainingStatistic, setTrainingStatistic] = React.useState(0);
   const navigate = useNavigate();
@@ -28,30 +28,37 @@ const Dashboard = () => {
         const token = JSON.parse(localStorage.getItem('token'));
         const userInfo = await getUserInfo(infoId, token);
         const trainings = await getAllTrainings(token);
+        const matches = await getAllMatches(token);
         let currentDate = new Date();
         currentDate = currentDate.toISOString().slice(0, 10);
         currentDate = currentDate.split('-').reverse().join('/');
+
+        userInfo.pace = Math.floor(Math.random() * 100);
+        userInfo.shooting = Math.floor(Math.random() * 100);
+        userInfo.passing = Math.floor(Math.random() * 100);
+        userInfo.dribbling = Math.floor(Math.random() * 100);
+        userInfo.defending = Math.floor(Math.random() * 100);
+        userInfo.physical = Math.floor(Math.random() * 100);
+
         setDate(currentDate);
-        setName(JSON.parse(localStorage.getItem('name')));
-        setSurname(JSON.parse(localStorage.getItem('surname')));
         setUserInfo(userInfo);
         setTrainings(trainings);
+        setMatches(matches);
+
+        positionPointCalculation();
+
 
         console.log('userId:', userId);
         console.log('infoId:', infoId);
         console.log('token:', token);
         console.log('userInfo:', userInfo);
         console.log('trainings:', trainings);
+        console.log('matches:', matches);
 
         let count = 0;
-
         for(let i = 0; i < trainings.length; i++)
-        {
           if(trainings[i].status === true)
-          {
             count++;
-          }
-        }
 
         setTrainingStatistic(count / trainings.length * 100);
 
@@ -63,150 +70,111 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const whatToFocus = () => {
+
+
+
+  const renderPositionIcon = (position) => {
+    if(position === "Right Wing" || position === "Left Wing" || position === "Center Forward")
+      return forward;
+    if(position === 'Central Midfielder' || position === 'Right Midfielder' || position === 'Left Midfielder' 
+      || position === 'Center Defensive Midfielder' || position === 'Center Attacking Midfielder')
+      return midfielder;
+    if(position === 'Center Back' || position === 'Right Back' || position === 'Left Back')
+      return defender;
+    if(position === 'Goalkeeper')
+      return goalkeeper;
+  }
+
+  const returnPosition = () => {
+    if(userInfo.position === 'Right Wing' || userInfo.position === 'Left Wing' || userInfo.position === 'Center Forward')
+      return 'Forward';
+    if(userInfo.position === 'Central Midfielder' || userInfo.position === 'Right Midfielder' || userInfo.position === 'Left Midfielder'
+      || userInfo.position === 'Center Defensive Midfielder' || userInfo.position === 'Center Attacking Midfielder')
+      return 'Midfielder';
+    if(userInfo.position === 'Center Back' || userInfo.position === 'Right Back' || userInfo.position === 'Left Back')
+      return 'Defender';
     if(userInfo.position === 'Goalkeeper')
+      return 'Goalkeeper';
+  }
+
+  const positionPointCalculation = () => {
+    let position = returnPosition();
+    if(position === 'Forward')
     {
-      if(userInfo.goals_conceded / userInfo.saves * 100 > 50)
-        return 'Focus on your saves';
-      else if(userInfo.passes_complete / userInfo.passes_tried * 100 < 50)
-        return 'Focus on your passes';
-      else
-        return 'You are doing great';
+      updatedInfo.pace = userInfo.pace * 0.3;
+      updatedInfo.shooting = userInfo.shooting * 0.2;
+      updatedInfo.passing = userInfo.passing * 0.2;
+      updatedInfo.dribbling = userInfo.dribbling * 0.2;
+      updatedInfo.defending = userInfo.defending * 0.1;
+      updatedInfo.physical = userInfo.physical * 0.1;
+    }      
+    if(position === 'Midfielder')
+    {
+      updatedInfo.pace = userInfo.pace * 0.2;
+      updatedInfo.shooting = userInfo.shooting * 0.2;
+      updatedInfo.passing = userInfo.passing * 0.3;
+      updatedInfo.dribbling = userInfo.dribbling * 0.2;
+      updatedInfo.defending = userInfo.defending * 0.1;
+      updatedInfo.physical = userInfo.physical * 0.1;
     }
-    else
+    if(position === 'Defender')
     {
-      if(userInfo.shots_complete / userInfo.shots_tried * 100 < 50)
-        return 'Focus on your shots';
-      else if(userInfo.passes_complete / userInfo.passes_tried * 100 < 50)
-        return 'Focus on your passes';
-      else if(userInfo.dribbles_complete / userInfo.dribbles_tried * 100 < 50)
-        return 'Focus on your dribbles';
-      else 
-        return 'You are doing great';
+      updatedInfo.pace = userInfo.pace * 0.1;
+      updatedInfo.shooting = userInfo.shooting * 0.1;
+      updatedInfo.passing = userInfo.passing * 0.1;
+      updatedInfo.dribbling = userInfo.dribbling * 0.1;
+      updatedInfo.defending = userInfo.defending * 0.4;
+      updatedInfo.physical = userInfo.physical * 0.2;
+    }
+    if(position === 'Goalkeeper')
+    {
+      updatedInfo.pace = userInfo.pace * 0.1;
+      updatedInfo.shooting = userInfo.shooting * 0.1;
+      updatedInfo.passing = userInfo.passing * 0.1;
+      updatedInfo.dribbling = userInfo.dribbling * 0.1;
+      updatedInfo.defending = userInfo.defending * 0.1;
+      updatedInfo.physical = userInfo.physical * 0.5;
+    }
+    return [updatedInfo.pace, updatedInfo.shooting, updatedInfo.passing, updatedInfo.dribbling, updatedInfo.defending, updatedInfo.physical];
+  }
+
+  const focusPointCalculation = () => {
+    let stats = positionPointCalculation();
+    console.log('stats:', stats);
+    let min = findMin(stats);
+    switch(min)
+    {
+      case stats[0]:
+        return 'Pace';
+      case stats[1]:
+        return 'Shooting';
+      case stats[2]:
+        return 'Passing';
+      case stats[3]:
+        return 'Dribbling';
+      case stats[4]:
+        return 'Defending';
+      case stats[5]:
+        return 'Physical';
     }
   }
 
-  const handleStatusUpdate = async (trainingId) => {
-    try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const response = await updateTraining(trainingId, { status: true }, token);
-      console.log('Training status updated:', response);
-      // Update the trainings state to mark the training as completed
-      setTrainings((prevTrainings) => prevTrainings.map(training =>
-        training._id === trainingId ? { ...training, status: true } : training
-      ));
-      setTrainingStatistic(prevStat => prevStat + (100 / trainings.length));
-    } catch (error) {
-      console.error('Error updating training status:', error);
-    }
-  };
-
-  const handleRemoveTraining = async (trainingId) => {
-    try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const response = await deleteTraining(trainingId, token);
-      console.log('Training removed:', response);
-      // Update the trainings state to remove the training
-      setTrainings((prevTrainings) => prevTrainings.filter(training => training._id !== trainingId));
-    } catch (error) {
-      console.error('Error removing training:', error);
-    }
-  };
-
-
-  function renderStatistics() {
-    if(userInfo.position === 'Goalkeeper') {
-      return (
-        <div className='statistic-container'>
-          <div className='statistic'>
-            <Circle
-              percent={userInfo.goals_conceded / userInfo.saves * 100} 
-              strokeColor="#1c1f23"
-              strokeWidth={6}
-              trailWidth={6}
-            />
-            <div>Saves</div>
-          </div>
-          <div className='statistic'>
-            <Circle
-              percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
-              strokeColor="#1c1f23"
-              strokeWidth={6}
-              trailWidth={6}
-            />
-            <div>Passes</div>
-          </div>
-        </div>
-      );
-    }
-    else 
-    {
-        return (
-          <div className='statistic-container'>
-            <div className='statistic'>
-              <Circle
-                percent={userInfo.shots_complete / userInfo.shots_tried * 100} 
-                strokeColor="#1c1f23"
-                strokeWidth={6}
-                trailWidth={6}
-              />
-              <div>Shots</div>
-            </div>
-            <div className='statistic'>
-              <Circle
-                percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
-                strokeColor="#1c1f23"
-                strokeWidth={6}
-                trailWidth={6}
-              />
-              <div>Passes</div>
-            </div>
-              <div className='statistic'>
-                <Circle
-                  percent={userInfo.dribbles_complete / userInfo.dribbles_tried * 100} 
-                  strokeColor="#1c1f23"
-                  strokeWidth={6}
-                  trailWidth={6}
-                />
-              <div>Dribbles</div>
-            </div>
-          </div>
-        );
-    }
+  const findMin = (array) => {
+    let min = 100;
+    for(let i = 0; i < array.length; i++)
+      if(array[i] < min)
+        min = array[i];
+    return min;
   }
 
-  function renderTraining() {
-    return trainings.slice(0,3).map(training => {
-      var img;
-      if(training.type === "Strength" || training.type === "Power" || training.type === "Endurance" || training.type === "Mobility" || training.type === "Stability" || training.type === "Recovery")
-        img = <img className="training-img" src={physicalImg} alt='profile' />;
-      else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing")
-        img = <img className="training-img" src={technicalImg} alt='profile' />;
-      else if(training.type === "Set Pieces" || training.type === "Formations" || training.type === "Attacking" || training.type === "Defensive")
-        img = <img className="training-img" src={tacticalImg} alt='profile' />;
-      
-        return (
-          <div key={training._id} className='inner-card-training'>
-            <div className='training-image'>
-              {img}
-            </div>
-            <div className="training-info">
-              <div className='training-remove-button'>
-                <button className='training-remove-button' onClick={() => handleRemoveTraining(training._id)}>X</button>
-              </div>
-              <div className='training-title'>{training.type}</div>
-              <div className='training-duration'>{training.duration} minutes</div>
-              <div className='training-description'>{training.description}</div>
-              <div className='training-date'>{training.time.substring(0, 10).split('-').reverse().join('/')}</div>
-              <div className='training-complete-button'>
-                <button className='training-complete-button' onClick={() => handleStatusUpdate(training._id)}>Complete</button>
-              </div>
-            </div>
-            
-          </div>
-        );
-    });
-  }
+  const chartData = [
+    { subject: 'Pace', A: updatedInfo.pace },
+    { subject: 'Shooting', A: updatedInfo.shooting },
+    { subject: 'Passing', A: updatedInfo.passing },
+    { subject: 'Dribbling', A: updatedInfo.dribbling },
+    { subject: 'Defending', A: updatedInfo.defending },
+    { subject: 'Physical', A: updatedInfo.physical }
+  ];
 
   return (
     <>
@@ -222,47 +190,49 @@ const Dashboard = () => {
         <main className='dashboard-main'> 
         <div className='card-user'>
           <div className='inner-card-user'> 
-            <div className='hello-user'> {name} {surname}</div> 
+            <div className='hello-user'> {userInfo.name} {userInfo.surname}</div> 
           </div>
           <div className='inner-card-position'>
             <div className='position'> Position: {userInfo.position}</div>
           </div>
-          <div className='inner-card-focus'> 
-              <div className='focus-image'> 
-                <img className="focus-img" src={technicalImg} alt='profile' />  
+          <div className='inner-card-user-info'> 
+              <img className="user-info-icon" src={renderPositionIcon(userInfo.position)} alt='position-icon' />
+              <div className='user-info-details'>
+                <div className='user-info'> PAC: {userInfo.pace}</div>
+                <div className='user-info'> SHO: {userInfo.shooting}</div>
+                <div className='user-info'> PAS: {userInfo.passing}</div>
+                <div className='user-info'> DRI: {userInfo.dribbling}</div>
+                <div className='user-info'> DEF: {userInfo.defending}</div>
+                <div className='user-info'> PHY: {userInfo.physical}</div>
               </div>
-              <div className='focus-title'> {whatToFocus()} </div>
           </div>
-          <div className='inner-card-statistics'> 
-            <div className='statistic-title'> Statistics</div>
-              {renderStatistics()}
+          <div className='inner-card-focus'> 
+            <div className='focus'> <b>You need to focus on:</b> {focusPointCalculation()}</div>
+            <div className='stats'>
+              <RadarChart cx={200} cy={100} outerRadius={80} width={400} height={200} data={chartData} >
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" />
+                <PolarRadiusAxis />
+                <Radar name="Stats" dataKey="A" stroke="#1c1f23" fill="#1c1f23" fillOpacity={0.6} />
+              </RadarChart>
             </div>
-        </div>
-        <div className='card-weight'>
-          <div className='weight-title'> Weight</div>
-          <div className='weight-value'> {userInfo.weight} kg</div>
-        </div>
-        <div className='card-progress'>
-          <div className='weight-title'> Height</div>
-          <div className='weight-value'> {userInfo.height} cm</div>
-        </div>
-        <div className='card-day'>
-          <div className='day-title'>Day</div>
-          <div className='day-value'> { date } </div>
-        </div>
-        <div className='card-training-complete'>
-          <div className='statistic-training'>
-              <Circle
-                percent={trainingStatistic} 
-                strokeColor="#1c1f23"
-                strokeWidth={6}
-                trailWidth={6}
-              />
-              <div>Trainings</div>
-            </div>
+          </div>
         </div>
         <div className='card-training'>
-          {renderTraining()}
+          <div className='inner-card-training'>
+            <div className='latest-training-title'> Latest Training </div>
+          </div>
+          <div className='inner-card-training'>
+            <div className='monthly-training-title'> Monthly Training </div>
+          </div>
+          <div className='inner-card-training'>
+            <div className='training-statistic-title'> Training Statistic </div>
+
+          </div>
+        </div>
+        <div className='card-latest-match'>
+        </div>
+        <div className='card-general-matches'>
         </div>
         </main>
       </body>

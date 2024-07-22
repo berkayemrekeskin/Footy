@@ -14,20 +14,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const {forward, midfield, defense, goalkeeper} = require("./constansts");
+const {positions} = require("./constansts");
 
 app.get('/api/positions', (req, res) => {
-  res.json({
-    forward,
-    midfield,
-    defense,
-    goalkeeper,
-  });
+  res.json({positions});
 });
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/info", require("./routes/info"));
 app.use("/api/training", require("./routes/training"));
+app.use("/api/match", require("./routes/match"));
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

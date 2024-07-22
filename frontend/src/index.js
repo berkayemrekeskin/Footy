@@ -13,13 +13,12 @@ import Trainings from './components/Trainings';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Register />} /> 
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} /> 
         <Route path="/user/info/create" element={<CreateUserInfoForm />} />
         <Route path="/training" element={<Trainings />} />
         <Route path="/profile" element={<Profile />} />
@@ -27,6 +26,16 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+// REGISTER +
+// LOGIN +
+// CREATE USER INFO +
+// DASHBOARD
+// PROFILE
+// TRAINING
+// MATCH
+// HOME
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -3,14 +3,9 @@ const asyncHandler = require("express-async-handler");
 const { physicalTraining, technicalTraining, tacticalTraining } = require("../constansts");
 const mongoose = require("mongoose");
 
-
-//@desc Create training
-//@route POST /api/training/create
-//@access private
-
 const createTraining = asyncHandler( async(req,res) => {
 
-    const { type, description, duration } = req.body;
+    const { type, effect, effect_value, description, duration } = req.body;
 
     if(Object.values(physicalTraining).includes(type) || Object.values(technicalTraining).includes(type) || Object.values(tacticalTraining).includes(type))
     {
@@ -24,6 +19,8 @@ const createTraining = asyncHandler( async(req,res) => {
     const training = new Training({
         user_id: req.user.id,
         type,
+        effect,
+        effect_value,
         description,
         duration,
     });
@@ -35,11 +32,6 @@ const createTraining = asyncHandler( async(req,res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
-
-//@desc Update training info
-//@route PUT /api/training/update/:id
-//@access private
 
 const updateTraining = asyncHandler(async (req, res) => {
 
@@ -81,10 +73,6 @@ const deleteTraining = asyncHandler(async (req, res) => {
     res.status(200).json({ msg: "Training deleted successfully" });
 });
 
-//@desc Get training info
-//@route GET /api/training/get/:id
-//@access private
-
 const getTraining = asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ msg: "Invalid ID format" });
@@ -97,11 +85,6 @@ const getTraining = asyncHandler(async (req, res) => {
     }
     res.status(200).json(training);
 });
-
-
-//@desc Get all trainings info
-//@route GET /api/training/get
-//@access private
 
 const getAllTrainings = asyncHandler(async (req, res) => {
     const trainings = await Training.find({user_id: req.user.id});

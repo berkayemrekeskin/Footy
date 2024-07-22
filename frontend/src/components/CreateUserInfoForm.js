@@ -4,26 +4,18 @@ import { createUserInfo, getPositions } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const UserInfoForm = () => {
-    const [generalPosition, setGeneralPosition] = useState('');
+
+    const [positions, setPositions] = useState(undefined);
     const [formData, setFormData] = useState({
-        weight: undefined,  
-        height: undefined,
+        name: undefined,
+        surname: undefined,
         age: undefined,
+        height: undefined,
+        weight: undefined,
+        foot: undefined,
         position: undefined,
-        goals: undefined,
-        assists: undefined,
-        saves: undefined,
-        goals_conceded: undefined,
-        dribbles_tried: undefined,
-        dribbles_complete: undefined,
-        passes_tried: undefined,
-        passes_complete: undefined,
-        shots_tried: undefined,
-        shots_complete: undefined,
     });
     const navigate = useNavigate();
-
-    var positions = undefined;
 
     useEffect(() => {
         const fetchPositions = async () => {
@@ -32,8 +24,7 @@ const UserInfoForm = () => {
                 const response = await getPositions(token);
                 const response_str = JSON.stringify(response);
                 const posArr = JSON.parse(response_str);
-                positions = posArr;
-
+                setPositions(posArr);
             } catch (error) {
                 console.error('Error fetching positions:', error);
             }
@@ -42,17 +33,6 @@ const UserInfoForm = () => {
     }, []);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleGeneralPosition = (e) => {
-        const { name, value } = e.target;
-        if (name === 'generalPosition') {
-            setGeneralPosition(value);
-        }
-    };
-
-    const handleSpesificPosition = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -73,117 +53,91 @@ const UserInfoForm = () => {
         }
     };
 
-    const renderSpecificPosition = (generalPosition) => {
-        console.log("General Position:", generalPosition);
-        console.log("Spesific Position:", formData.position);
-        switch (generalPosition) {
-            case 'Forward':
-                return (
-                    <div className='userInputContainer'>
-                        <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
-                            <option className="option" value="">Select position</option>
-                            <option className="option" value="Right Wing">Right Wing</option>
-                            <option className="option" value="Left Wing">Left Wing</option>
-                            <option className="option" value="Center Forward">Center Forward</option>
-                        </select>
-                        <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
-                        <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
-                        <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
-                        <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
-                        <input className='userInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
-                        <input className='userInput' type="number" name="dribbles_tried" value={formData.dribbles_tried} onChange={handleChange} placeholder="Dribbles Tried" />
-                        <input className='userInput' type="number" name="dribbles_complete" value={formData.dribbles_complete} onChange={handleChange} placeholder="Dribbles Complete" />
-                        <input className='userInput' type="number" name="shots_tried" value={formData.shots_tried} onChange={handleChange} placeholder="Shots Tried" />
-                        <input className='userInput' type="number" name="shots_complete" value={formData.shots_complete} onChange={handleChange} placeholder="Shots Complete" />
-                    </div>
-
-                );
-            case 'Midfield':
-                return (
-                    <div className='userInputContainer'>
-                        <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
-                            <option className="option" value="">Select position</option>
-                            <option className="option" value="Center Midfield">Center Midfield</option>
-                            <option className="option" value="Right Midfield">Right Midfield</option>
-                            <option className="option" value="Left Midfield">Left Midfield</option>
-                            <option className="option" value="Center Defensive Midfield">Center Defensive Midfield</option>
-                            <option className="option" value="Center Attacking Midfield">Center Attacking Midfield</option>
-                        </select>
-                        <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
-                        <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
-                        <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
-                        <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
-                        <input className='userInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
-                        <input className='userInput' type="number" name="dribbles_tried" value={formData.dribbles_tried} onChange={handleChange} placeholder="Dribbles Tried" />
-                        <input className='userInput' type="number" name="dribbles_complete" value={formData.dribbles_complete} onChange={handleChange} placeholder="Dribbles Complete" />
-                        <input className='userInput' type="number" name="shots_tried" value={formData.shots_tried} onChange={handleChange} placeholder="Shots Tried" />
-                        <input className='userInput' type="number" name="shots_complete" value={formData.shots_complete} onChange={handleChange} placeholder="Shots Complete" />
-                    </div>
-                    
-                );
-            case 'Defense':
-                return (
-
-                    <div className='userInputContainer'>
-                        <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>
-                            <option className="option" value="">Select position</option>
-                            <option className="option" value="Right Back">Right Back</option>
-                            <option className="option" value="Left Back">Left Back</option>
-                            <option className="option" value="Center Back">Center Back</option>
-                        </select>
-                        <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
-                        <input className='userInput' type="number" name="goals" value={formData.goals} onChange={handleChange} placeholder="Goals" />
-                        <input className='userInput' type="number" name="assists" value={formData.assists} onChange={handleChange} placeholder="Assists" />
-                        <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
-                        <input className='userInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
-                        <input className='userInput' type="number" name="dribbles_tried" value={formData.dribbles_tried} onChange={handleChange} placeholder="Dribbles Tried" />
-                        <input className='userInput' type="number" name="dribbles_complete" value={formData.dribbles_complete} onChange={handleChange} placeholder="Dribbles Complete" />
-                        <input className='userInput' type="number" name="shots_tried" value={formData.shots_tried} onChange={handleChange} placeholder="Shots Tried" />
-                        <input className='userInput' type="number" name="shots_complete" value={formData.shots_complete} onChange={handleChange} placeholder="Shots Complete" />
-                    </div>
-                    
-                );
-            case 'Goalkeeper':
-                return (
-                    <div className='userInputContainer'>
-                        <select className='positionSelection' id="spesificPosition" name="position" onChange={handleSpesificPosition} value={formData.position}>      
-                            <option className="option" value="">Select position</option>
-                            <option className="option" value="Goalkeeper">Goalkeeper</option>
-                        </select>
-                        <input className='userInput' type="number" name="weight" value={formData.weight} onChange={handleChange} placeholder="Weight" />
-                        <input className='userInput' type="number" name="height" value={formData.height} onChange={handleChange} placeholder="Height" />
-                        <input className='userInput' type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Age" />
-                        <input className='userInput' type="number" name="saves" value={formData.saves} onChange={handleChange} placeholder="Saves" />
-                        <input className='userInput' type="number" name="goals_conceded" value={formData.goals_conceded} onChange={handleChange} placeholder="Goals Conceded" />
-                        <input className='userInput' type="number" name="passes_tried" value={formData.passes_tried} onChange={handleChange} placeholder="Passes Tried" />
-                        <input className='userInput' type="number" name="passes_complete" value={formData.passes_complete} onChange={handleChange} placeholder="Passes Complete" />
-                    </div>
-                );
-            default:
-                return null;
+    const renderPositions = () => {
+        if (positions) {
+            return (
+                <select
+                    name="position"
+                    onChange={handleChange}
+                    className='userInfoInput'
+                >
+                    {positions.positions.map((position) => {
+                        return (
+                            <option key={position.id} value={position.name}>
+                                {position.name}
+                            </option>
+                        );
+                    })}
+                </select>
+            );
+        }
+        else {
+            return (
+                <div> Loading... </div>
+            );
         }
     }
+
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-            <div className="userInfoForm">
-                <select className="positionSelection"id="generalPosition" name="generalPosition" onChange={handleGeneralPosition} value={generalPosition}>
-                    <option value="">Select general position</option>
-                    <option value="Forward">Forward</option>
-                    <option value="Midfield">Midfield</option>
-                    <option value="Defense">Defense</option>
-                    <option value="Goalkeeper">Goalkeeper</option>
-                </select>
-                {renderSpecificPosition(generalPosition)}
-            <button className="submitButton" type="submit">Submit</button>
-            </div>
-            </form>
+            <body className="userInfoBody">
+                <form onSubmit={handleSubmit}>
+                <div className="userInfoForm">
+                    <div className="userInfoTitle">User Info</div>
+                    <input
+                        className='userInfoInput'
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Name"
+                    />
+                    <input
+                        className='userInfoInput'
+                        type="text"
+                        name="surname"
+                        value={formData.surname}
+                        onChange={handleChange}
+                        placeholder="Surname"
+                    />
+                    <input
+                        className='userInfoInput'
+                        type="number"
+                        name="age"
+                        value={formData.age}
+                        onChange={handleChange}
+                        placeholder="Age"
+                    />
+                    <input
+                        className='userInfoInput'
+                        type="number"
+                        name="height"
+                        value={formData.height}
+                        onChange={handleChange}
+                        placeholder="Height"
+                    />
+                    <input
+                        className='userInfoInput'
+                        type="number"
+                        name="weight"
+                        value={formData.weight}
+                        onChange={handleChange}
+                        placeholder="Weight"
+                    />
+                    <input
+                        className='userInfoInput'
+                        type="text"
+                        name="foot"
+                        value={formData.foot}
+                        onChange={handleChange}
+                        placeholder="Foot"
+                    />
+                    {renderPositions()}
+                    
+                <button className="submitButton" type="submit">Submit</button>
+                </div>
+                </form>
+            </body>
         </div>
     );
     

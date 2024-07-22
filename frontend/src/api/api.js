@@ -28,6 +28,15 @@ export const loginUser = async (userData) => {
     }
 };
 
+export const changePassword = async (passwordData, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.post('/auth/change-password', passwordData);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
 
 // Info API functions
 export const createUserInfo = async (userInfo, token) => {
@@ -110,6 +119,57 @@ export const getAllTrainings = async (token) => {
         throw error.response ? error.response.data : error.message;
     }
 };
+
+// Match API functions
+export const createMatch = async (matchData, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.post('/match/create', matchData);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+};
+
+export const updateMatch = async (id, matchData, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.put(`/match/update/${id}`, matchData);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const deleteMatch = async (id, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.delete(`/match/delete/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const getMatch = async (id, token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get(`/match/get/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const getAllMatches = async (token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get('/match/get');
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
 
 export const getPositions = async (token) => {
     try {

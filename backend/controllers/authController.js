@@ -1,26 +1,14 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/Auth");
 const Info = require("../models/Info");
 const asyncHandler = require("express-async-handler");
 
-/*
-    1. Get name, surname, email & password from body
-    2. Check if all given
-    3. Check mongoDB for the user using User schema , if found dont create return error
-    4. Hash the given password using bcrypt
-    5. Create the user and add to mongoDB
-*/
-
-//@desc Register a user
-//@route POST /api/auth/register
-//@access public
-
 const registerUser = asyncHandler(async(req,res) => {
 
-    const { name, surname, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if(!name || !surname || !email || !password)
+    if( !username || !email || !password)
     {
         res.status(400);
         throw new Error("All fields are mandatory");
@@ -33,8 +21,7 @@ const registerUser = asyncHandler(async(req,res) => {
         console.log("Hashed password: ", hashedPassword);
 
         user = await User.create({
-            name,
-            surname,
+            username,
             email,
             password: hashedPassword,
         });
@@ -54,20 +41,6 @@ const registerUser = asyncHandler(async(req,res) => {
     }
 });
 
-
-/*
-    1. Get email & password from body
-    2. Check if both given
-    3. Check mongoDB for the user using User schema
-    4. Check the given password is correct with the found user
-    5. Create an access token for the user to login
-*/
-
-
-//@desc Login user
-//@route POST /api/auth/login
-//@access public
-
 const loginUser = asyncHandler( async (req,res) => {
     
     const {email, password} = req.body;
@@ -86,8 +59,7 @@ const loginUser = asyncHandler( async (req,res) => {
     {
         const accessToken = jwt.sign({
             user: {
-                name: user.name,
-                surname: user.surname,
+                username: user.username,
                 email: user.email,
                 id: user.id,
             },
@@ -100,11 +72,9 @@ const loginUser = asyncHandler( async (req,res) => {
         res.status(200).json({
         accessToken: accessToken,    
         user: {
-            name: user.name,
-            surname: user.surname,
+            username: user.username,
             email: user.email,
             id: user.id,
-            info: info,
         }
         });
     }
@@ -115,9 +85,25 @@ const loginUser = asyncHandler( async (req,res) => {
     //res.json( { message: "Login the user"});
 });
 
-const getUser = asyncHandler(async(req,res) => {
-    res.json(req.user);
-}
-);
+const changePassword = asyncHandler(async(req,res) => {
 
-module.exports = { loginUser, registerUser, getUser };
+    const {email, password, newPassword} = req.body;
+    let user = await User.findOne({email});
+    if(user && (await bcrypt.compare(password, user.password)))
+    {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        console.log("Hashed password: ", hashedPassword);
+        user = await User.findOneAndUpdate({_id: user._id}, {$set: {password: hashedPassword}}, {new: true});
+        console.log("New password: ", user.password);
+        res.status(200).json({
+            user
+        });
+    }
+    else 
+    {
+        res.status(400);
+    }
+
+});
+
+module.exports = { loginUser, registerUser, changePassword};

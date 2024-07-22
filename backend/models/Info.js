@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 
-const InfoSchema = new mongoose.Schema({
+const UserInfoSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User",
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    surname: {
+        type: String,
+        required: true,
+    },
+    age: {
+        type: Number,
+        required: true,
     },
     weight: {
         type: Number,
@@ -14,56 +26,54 @@ const InfoSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    age : {
-        type: Number,
+    foot: {
+        type: String,
         required: true,
     },
     position: {
         type: String,
         required: true,
     },
-    goals: {
+    overall: {
         type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    assists: {
+    pace: {
         type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    saves: {
+    shooting: {
         type: Number,
-        required: function() { return this.position === "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    goals_conceded: {
+    passing: {
         type: Number,
-        required: function() { return this.position === "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    dribbles_tried: {
+    dribbling: {
         type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    dribbles_complete: {
+    defending: {
         type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
+        required: false,
+        default: 0,
     },
-    passes_tried: {
+    physical: {
         type: Number,
-        required: true,
+        required: false,
+        default: 0,
     },
-    passes_complete: {
+    goalkeeping: {
         type: Number,
-        required: true,
+        required: false,
+        default: 0,
     },
-    shots_tried: {
-        type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
-    },
-    shots_complete: {
-        type: Number,
-        required: function() { return this.position !== "Goalkeeper"},
-    },
-    
-    
 })
 
-module.exports = mongoose.model('Info', InfoSchema);
+module.exports = mongoose.model('Info', UserInfoSchema);

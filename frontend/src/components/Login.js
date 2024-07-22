@@ -26,8 +26,6 @@ const Login = () => {
             localStorage.setItem('token', JSON.stringify(response.accessToken));
             localStorage.setItem('userId', JSON.stringify(response.user.id));;
             localStorage.setItem('email', JSON.stringify(email));
-            localStorage.setItem('name', JSON.stringify(response.user.name));
-            localStorage.setItem('surname', JSON.stringify(response.user.surname));
             if(response.user.info) {
                 navigate('/dashboard');
             }
