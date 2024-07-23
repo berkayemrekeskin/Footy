@@ -4,17 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import forward from "../img/forward.png";
 import midfielder from "../img/midfielder.png";
 import defender from "../img/defender.png";
 import goalkeeper from "../img/goalkeeper.png";
+import { all } from 'axios';
 
 const Dashboard = () => {
 
   const [userInfo, setUserInfo] = React.useState({});
   const [updatedInfo, setUpdatedInfo] = React.useState({});
+  const [matchPoints, setMatchPoints] = React.useState([]);
   const [trainings, setTrainings] = React.useState([]);
   const [matches, setMatches] = React.useState([]);
+  const [dates, setDates] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [date, setDate] = React.useState('');
   const [trainingStatistic, setTrainingStatistic] = React.useState(0);
@@ -45,7 +49,18 @@ const Dashboard = () => {
         setTrainings(trainings);
         setMatches(matches);
 
-        positionPointCalculation();
+        const temp_dates = [];
+        for(let i = 0; i < matches.length; i++)
+        {
+          let match = await getMatch(matches[i]._id, token);
+          let date = match.date;
+          date = date.split('T')[0];
+          date = date.split('-').reverse().join('/');
+          temp_dates[i] = date;
+        }
+
+        setDates(temp_dates);
+        console.log('dates:', dates);
 
 
         console.log('userId:', userId);
@@ -71,13 +86,20 @@ const Dashboard = () => {
   }, []);
 
 
+  React.useEffect(() => {
+    if (matches.length > 0) {
+      for (let i = 0; i < matches.length; i++)
+        matchPointCalculation(matches[i], i);
+      positionPointCalculation();
+    }
+  }, [matches]);
 
 
   const renderPositionIcon = (position) => {
     if(position === "Right Wing" || position === "Left Wing" || position === "Center Forward")
       return forward;
-    if(position === 'Central Midfielder' || position === 'Right Midfielder' || position === 'Left Midfielder' 
-      || position === 'Center Defensive Midfielder' || position === 'Center Attacking Midfielder')
+    if(position === 'Central Midfield' || position === 'Right Midfield' || position === 'Left Midfield' 
+      || position === 'Center Defensive Midfield' || position === 'Center Attacking Midfield')
       return midfielder;
     if(position === 'Center Back' || position === 'Right Back' || position === 'Left Back')
       return defender;
@@ -88,14 +110,115 @@ const Dashboard = () => {
   const returnPosition = () => {
     if(userInfo.position === 'Right Wing' || userInfo.position === 'Left Wing' || userInfo.position === 'Center Forward')
       return 'Forward';
-    if(userInfo.position === 'Central Midfielder' || userInfo.position === 'Right Midfielder' || userInfo.position === 'Left Midfielder'
-      || userInfo.position === 'Center Defensive Midfielder' || userInfo.position === 'Center Attacking Midfielder')
+    if(userInfo.position === 'Central Midfield' || userInfo.position === 'Right Midfield' || userInfo.position === 'Left Midfield'
+      || userInfo.position === 'Center Defensive Midfield' || userInfo.position === 'Center Attacking Midfield')
       return 'Midfielder';
     if(userInfo.position === 'Center Back' || userInfo.position === 'Right Back' || userInfo.position === 'Left Back')
       return 'Defender';
     if(userInfo.position === 'Goalkeeper')
       return 'Goalkeeper';
   }
+
+  const matchPointCalculation = (match,index) => {
+    const position = returnPosition();
+    console.log("matchleng" , matches.length);
+    let point = -1;
+    let minutePoint, goalPoint, assistPoint, shotPoint, passPoint, tacklePoint, 
+    dribblePoint, savePoint, goalConcededPoint, yellowCardPoint, redCardPoint;
+    if(position === 'Forward')
+    {
+      minutePoint = match.minutes_played * 0.1;
+      goalPoint = match.goals_scored * 5;
+      assistPoint = match.assists * 3;
+      shotPoint = (match.shots_on_target / match.total_shots) * 0.5;
+      passPoint = (match.passes_completed / match.total_passes) * 0.3;
+      tacklePoint = (match.tackles_completed / match.total_tackles) * 0.2;
+      dribblePoint = (match.dribbles_completed / match.total_dribbles) * 0.2;
+      savePoint = 0;
+      goalConcededPoint = 0;
+      if(match.yellow_card)
+        yellowCardPoint = -2;
+      else 
+        yellowCardPoint = 0;
+      if(match.red_card)
+        redCardPoint = -5;
+      else
+        redCardPoint = 0;
+      point = minutePoint + goalPoint + assistPoint + shotPoint + passPoint + tacklePoint + dribblePoint + savePoint + goalConcededPoint + yellowCardPoint + redCardPoint;
+      console.log('point & pos', point, position);
+      matchPoints[index] = point;
+    }
+    if(position === 'Midfielder')
+    {
+      minutePoint = match.minutes_played * 0.1;
+      goalPoint = match.goals_scored * 3;
+      assistPoint = match.assists * 5;
+      shotPoint = (match.shots_on_target / match.total_shots) * 0.1;
+      passPoint = (match.passes_completed / match.total_passes) * 0.2;
+      tacklePoint = (match.tackles_completed / match.total_tackles) * 0.5;
+      dribblePoint = (match.dribbles_completed / match.total_dribbles) * 0.1;
+      savePoint = 0;
+      goalConcededPoint = 0;
+      if(match.yellow_card)
+        yellowCardPoint = -2;
+      else 
+        yellowCardPoint = 0;
+      if(match.red_card)
+        redCardPoint = -5;
+      else
+        redCardPoint = 0;
+      point = minutePoint + goalPoint + assistPoint + shotPoint + passPoint + tacklePoint + dribblePoint + savePoint + goalConcededPoint + yellowCardPoint + redCardPoint;
+      console.log('point & pos', point, position);
+      matchPoints[index] = point;
+    }
+    if(position === 'Defender')
+    {
+      minutePoint = match.minutes_played * 0.1;
+      goalPoint = match.goals_scored * 1;
+      assistPoint = match.assists * 3;
+      shotPoint = (match.shots_on_target / match.total_shots) * 0.1;
+      passPoint = (match.passes_completed / match.total_passes) * 0.2;
+      tacklePoint = (match.tackles_completed / match.total_tackles) * 0.5;
+      dribblePoint = (match.dribbles_completed / match.total_dribbles) * 0.1;
+      savePoint = 0;
+      goalConcededPoint = 0;
+      if(match.yellow_card)
+        yellowCardPoint = -2;
+      else 
+        yellowCardPoint = 0;
+      if(match.red_card)
+        redCardPoint = -5;
+      else
+        redCardPoint = 0;
+      point = minutePoint + goalPoint + assistPoint + shotPoint + passPoint + tacklePoint + dribblePoint + savePoint + goalConcededPoint + yellowCardPoint + redCardPoint;
+      console.log('point & pos', point, position);
+      matchPoints[index] = point;
+    }
+    if(position === 'Goalkeeper')
+    {
+      minutePoint = match.minutes_played * 0.1;
+      goalPoint = match.goals_scored * 0;
+      assistPoint = match.assists * 0;
+      shotPoint = 0;
+      passPoint = 0;
+      tacklePoint = 0;
+      dribblePoint = 0;
+      savePoint = match.saves * 5;
+      goalConcededPoint = match.goals_conceded * -3;
+      if(match.yellow_card)
+        yellowCardPoint = -2;
+      else 
+        yellowCardPoint = 0;
+      if(match.red_card)
+        redCardPoint = -5;
+      else
+        redCardPoint = 0;
+      point = minutePoint + goalPoint + assistPoint + shotPoint + passPoint + tacklePoint + dribblePoint + savePoint + goalConcededPoint + yellowCardPoint + redCardPoint;
+      matchPoints[index] = point;
+      console.log('point & pos', point, position);
+    }
+  }
+
 
   const positionPointCalculation = () => {
     let position = returnPosition();
@@ -176,6 +299,28 @@ const Dashboard = () => {
     { subject: 'Physical', A: updatedInfo.physical }
   ];
 
+  const monthlyMatchData = [
+    { name: 'Jan', uv: 4000, pv: 2400, amt: 2400 },
+    { name: 'Feb', uv: 3000, pv: 1398, amt: 2210 },
+    { name: 'Mar', uv: 2000, pv: 9800, amt: 2290 },
+    { name: 'Apr', uv: 2780, pv: 3908, amt: 2000 },
+    { name: 'May', uv: 1890, pv: 4800, amt: 2181 },
+    { name: 'Jun', uv: 2390, pv: 3800, amt: 2500 },
+    { name: 'Jul', uv: 3490, pv: 4300, amt: 2100 },
+    { name: 'Aug', uv: 3490, pv: 4300, amt: 2100 },
+    { name: 'Sep', uv: 3490, pv: 4300, amt: 2100 },
+    { name: 'Oct', uv: 3490, pv: 4300, amt: 2100 },
+    { name: 'Nov', uv: 3490, pv: 4300, amt: 2100 },
+    { name: 'Dec', uv: 3490, pv: 4300, amt: 2100 }
+  ];
+
+
+  const test = [
+    { name: `${dates[0]}`, uv: matchPoints[0], pv: 2400, amt: 2400 },
+    { name: `${dates[1]}`, uv: matchPoints[1], pv: 1398, amt: 2210 },
+    { name: `${dates[2]}`, uv: matchPoints[2], pv: 9800, amt: 2290 },
+  ];
+
   return (
     <>
       <body className='dashboard-page'>
@@ -210,10 +355,10 @@ const Dashboard = () => {
             <div className='focus'> <b>You need to focus on:</b> {focusPointCalculation()}</div>
             <div className='stats'>
               <RadarChart cx={200} cy={100} outerRadius={80} width={400} height={200} data={chartData} >
-                <PolarGrid />
+                <PolarGrid stroke='#FFF'/>
                 <PolarAngleAxis dataKey="subject" />
                 <PolarRadiusAxis />
-                <Radar name="Stats" dataKey="A" stroke="#1c1f23" fill="#1c1f23" fillOpacity={0.6} />
+                <Radar name="Stats" dataKey="A"  stroke="#1c1f23" fill="#1c1f23" fillOpacity={0.6}/>
               </RadarChart>
             </div>
           </div>
@@ -233,6 +378,25 @@ const Dashboard = () => {
         <div className='card-latest-match'>
         </div>
         <div className='card-general-matches'>
+          <ResponsiveContainer width="100%" height="95%">
+            <AreaChart
+              width={500}
+              height={400}
+              data={test}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="uv" stroke="#1c1f23" fill="#1c1f23" />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
         </main>
       </body>
