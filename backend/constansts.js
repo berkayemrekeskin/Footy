@@ -13,26 +13,26 @@ exports.positions = [
     { name: "Goalkeeper", id: 12, abbreviation: "GK" }
 ];
 exports.physicalTraining = [
-    { STRENGTH: "Strength" },
-    { POWER: "Power" },
-    { ENDURANCE: "Endurance" },
-    { MOBILITY: "Mobility" },
-    { STABILITY: "Stability" },
-    { RECOVERY: "Recovery" }
+    { name: "Strength" },
+    { name: "Power" },
+    { name: "Endurance" },
+    { name: "Mobility" },
+    { name: "Stability" },
+    { name: "Recovery" }
 ];
 
 exports.technicalTraining = [
-    { PASSING: "Passing" },
-    { TACKLING: "Tackling" },
-    { BALL_CONTROL: "Ball Control" },
-    { POSSESSION: "Possesion" },
-    { POSITIONING: "Positioning" },
-    { FINISHING: "Finishing" }
+    { name: "Passing" },
+    { name: "Tackling" },
+    { name: "Ball Control" },
+    { name: "Possesion" },
+    { name: "Positioning" },
+    { name: "Finishing" }
 ];
 
 exports.tacticalTraining = [
-    { SET_PIECES: "Set Pieces" },
-    { FORMATIONS: "Formations" },
-    { ATTACKING: "Attacking" },
-    { DEFENSIVE: "Defensive" }
+    { name: "Set Pieces" },
+    { name: "Formations" },
+    { name: "Attacking" },
+    { name: "Defensive" }
 ];

@@ -6,8 +6,9 @@ const mongoose = require("mongoose");
 const createTraining = asyncHandler( async(req,res) => {
 
     const { type, effect, effect_value, description, duration } = req.body;
+    console.log(type);
 
-    if(Object.values(physicalTraining).includes(type) || Object.values(technicalTraining).includes(type) || Object.values(tacticalTraining).includes(type))
+    if(physicalTraining.find(physical => physical.name === type) || technicalTraining.find(technical => technical.name === type) || tacticalTraining.find(tactical => tactical.name === type))
     {
         if(!duration || !description)
             res.status(400).json({ msg: "All fields are mandatory for ", type});

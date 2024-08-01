@@ -5,11 +5,13 @@ import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Sector, Cell} from 'recharts';
 import forward from "../img/forward.png";
 import midfielder from "../img/midfielder.png";
 import defender from "../img/defender.png";
 import goalkeeper from "../img/goalkeeper.png";
 import { all } from 'axios';
+const COLORS = ['#4535C1', '#478CCF', '#36C2CE', '#77E4C8'];
 
 const Dashboard = () => {
 
@@ -355,10 +357,10 @@ const Dashboard = () => {
             <div className='focus'> <b>You need to focus on:</b> {focusPointCalculation()}</div>
             <div className='stats'>
               <RadarChart cx={200} cy={100} outerRadius={80} width={400} height={200} data={chartData} >
-                <PolarGrid stroke='#FFF'/>
-                <PolarAngleAxis dataKey="subject" />
+                <PolarGrid stroke='#4535C1'/>
+                <PolarAngleAxis dataKey="subject"/>
                 <PolarRadiusAxis />
-                <Radar name="Stats" dataKey="A"  stroke="#1c1f23" fill="#1c1f23" fillOpacity={0.6}/>
+                <Radar name="Stats" dataKey="A"  stroke="#77E4C8" fill="#478CCF" fillOpacity={0.6}/>
               </RadarChart>
             </div>
           </div>
@@ -376,9 +378,31 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='card-latest-match'>
+          <div className='latest-match-title'>
+            <p className='mini-header'> Latest Matches Overview </p>
+          </div>
+          <ResponsiveContainer width="100%" height="70%">
+            <PieChart width={500} height={200}>
+              <Pie
+                data={test}
+                innerRadius={100}
+                outerRadius={120}
+                fill="#8884d8"
+                paddingAngle={6}
+                dataKey="uv"
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={entry.subject} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
         <div className='card-general-matches'>
-          <ResponsiveContainer width="100%" height="95%">
+          <div className='general-matches-title'> 
+            <p className='mini-header'> Monthly Matches Overview </p>
+          </div>
+          <ResponsiveContainer width="100%" height="70%">
             <AreaChart
               width={500}
               height={400}
@@ -394,7 +418,7 @@ const Dashboard = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="uv" stroke="#1c1f23" fill="#1c1f23" />
+              <Area type="monotone" dataKey="uv" stroke="#77E4C8" fill="#4535C1" strokeWidth={5}/>
             </AreaChart>
           </ResponsiveContainer>
         </div>

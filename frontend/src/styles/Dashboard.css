@@ -1,3 +1,7 @@
+
+
+
+
 .dashboard-page {
     height: 100vh;
     display: grid;
@@ -85,11 +89,19 @@
 }
 
 .card-latest-match {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     grid-area: c2;
 }
 
 .card-general-matches {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     grid-area: c3;
 }
@@ -146,7 +158,8 @@
 .user-info {
     font-size: 20px;
     font-weight: 600;
-    background-color: #fff;
+    background-color: #4535C1;
+    color: #36C2CE;
     width: 100px;
     padding: 20px;
     border-radius: 10px;
@@ -170,8 +183,11 @@
     justify-content: center;
 }
 
-.inner-card-training {
-    
+.mini-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+
 }
 
 
