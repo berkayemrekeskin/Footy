@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/Dashboard.css";
 import { Circle } from 'rc-progress';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { PieChart, Pie, Sector, Cell} from 'recharts';
+import { AreaChart,Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, LineChart } from 'recharts';
+import { PieChart, Pie, Cell} from 'recharts';
 import forward from "../img/forward.png";
 import midfielder from "../img/midfielder.png";
 import defender from "../img/defender.png";
@@ -20,7 +20,8 @@ const Dashboard = () => {
   const [matchPoints, setMatchPoints] = React.useState([]);
   const [trainings, setTrainings] = React.useState([]);
   const [matches, setMatches] = React.useState([]);
-  const [dates, setDates] = React.useState([]);
+  const [matchDates, setmatchDates] = React.useState([]);
+  const [trainingDates, setTrainingDates] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [date, setDate] = React.useState('');
   const [trainingStatistic, setTrainingStatistic] = React.useState(0);
@@ -35,35 +36,42 @@ const Dashboard = () => {
         const userInfo = await getUserInfo(infoId, token);
         const trainings = await getAllTrainings(token);
         const matches = await getAllMatches(token);
+
         let currentDate = new Date();
         currentDate = currentDate.toISOString().slice(0, 10);
         currentDate = currentDate.split('-').reverse().join('/');
-
-        userInfo.pace = Math.floor(Math.random() * 100);
-        userInfo.shooting = Math.floor(Math.random() * 100);
-        userInfo.passing = Math.floor(Math.random() * 100);
-        userInfo.dribbling = Math.floor(Math.random() * 100);
-        userInfo.defending = Math.floor(Math.random() * 100);
-        userInfo.physical = Math.floor(Math.random() * 100);
-
         setDate(currentDate);
-        setUserInfo(userInfo);
-        setTrainings(trainings);
-        setMatches(matches);
-
-        const temp_dates = [];
+        const temp_matchDates = [];
         for(let i = 0; i < matches.length; i++)
         {
           let match = await getMatch(matches[i]._id, token);
           let date = match.date;
           date = date.split('T')[0];
           date = date.split('-').reverse().join('/');
-          temp_dates[i] = date;
+          date = date.substring(0, 5);
+          temp_matchDates[i] = date;
+        }
+        setmatchDates(temp_matchDates);
+
+        const temp_trainingDates = [];
+        for(let i = 0; i < trainings.length; i++)
+        {
+          let training = await getTraining(trainings[i]._id, token);
+          let date = training.date;
+          date = date.split('T')[0];
+          date = date.split('-').reverse().join('/');
+          date = date.substring(0, 5);
+          temp_trainingDates[i] = date;
         }
 
-        setDates(temp_dates);
-        console.log('dates:', dates);
+        setTrainingDates(temp_trainingDates);
 
+        console.log('matchDates:', temp_matchDates);
+        console.log('trainingDates:', temp_trainingDates);
+
+        setUserInfo(userInfo);
+        setTrainings(trainings);
+        setMatches(matches);
 
         console.log('userId:', userId);
         console.log('infoId:', infoId);
@@ -95,7 +103,6 @@ const Dashboard = () => {
       positionPointCalculation();
     }
   }, [matches]);
-
 
   const renderPositionIcon = (position) => {
     if(position === "Right Wing" || position === "Left Wing" || position === "Center Forward")
@@ -265,7 +272,6 @@ const Dashboard = () => {
 
   const focusPointCalculation = () => {
     let stats = positionPointCalculation();
-    console.log('stats:', stats);
     let min = findMin(stats);
     switch(min)
     {
@@ -301,26 +307,27 @@ const Dashboard = () => {
     { subject: 'Physical', A: updatedInfo.physical }
   ];
 
-  const monthlyMatchData = [
-    { name: 'Jan', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'Feb', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'Mar', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'Apr', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'May', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'Jun', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'Jul', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Aug', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Sep', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Oct', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Nov', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Dec', uv: 3490, pv: 4300, amt: 2100 }
+
+  const test = [
+    { name: `${matchDates[0]}`, uv: matchPoints[0]},
+    { name: `${matchDates[1]}`, uv: matchPoints[1]},
+    { name: `${matchDates[2]}`, uv: matchPoints[2]},
+    { name: `${matchDates[3]}`, uv: matchPoints[3]},
+    { name: `${matchDates[4]}`, uv: matchPoints[4]},
   ];
 
 
-  const test = [
-    { name: `${dates[0]}`, uv: matchPoints[0], pv: 2400, amt: 2400 },
-    { name: `${dates[1]}`, uv: matchPoints[1], pv: 1398, amt: 2210 },
-    { name: `${dates[2]}`, uv: matchPoints[2], pv: 9800, amt: 2290 },
+  const monthlyTrainingData = [
+    { name: `${trainingDates[0]}`, uv: 10},
+    { name: `${trainingDates[1]}`, uv: 20},
+    { name: `${trainingDates[2]}`, uv: 30},
+    { name: `${trainingDates[3]}`, uv: 20},
+    { name: `${trainingDates[4]}`, uv: 50},
+  ];
+
+  const trainingStatisticData = [
+    { name: 'Training', uv: trainingStatistic},
+    { name: 'Not Training', uv: 100 - trainingStatistic},
   ];
 
   return (
@@ -332,6 +339,7 @@ const Dashboard = () => {
         <section className='dashboard-sidebar'> 
           <button className='button' onClick={() => navigate('/dashboard')}> D </button>
           <button className='button' onClick={() => navigate('/training')}> T </button>
+          <button className='button' onClick={() => navigate('/match')}> M </button>
           <button className='button' onClick={() => navigate('/profile')}> P </button>
         </section>
         <main className='dashboard-main'> 
@@ -367,14 +375,50 @@ const Dashboard = () => {
         </div>
         <div className='card-training'>
           <div className='inner-card-training'>
-            <div className='latest-training-title'> Latest Training </div>
+            <div className='latest-training-title'>
+              <p className='right-header'> Latest Training Overview </p>  
+            </div>
+            <div className='latest-training-data'>
+              <Circle
+                    percent={trainings.length != 0 ? trainings[trainings.length - 1].effect_value : 0} 
+                    strokeColor= "#36C2CE"
+                    strokeWidth={6}
+                    trailWidth={6}
+                    className='training-circle'
+                />
+            </div>
           </div>
           <div className='inner-card-training'>
-            <div className='monthly-training-title'> Monthly Training </div>
+            <div className='monthly-training-title'> 
+                <p className='right-header'> Monthly Training Overview </p>
+            </div>
+            <div className='monthly-training-data'>
+              <ResponsiveContainer width="90%" height="90%">
+                <LineChart width={200} height={80} data={monthlyTrainingData}>
+                  <Line type="monotone" dataKey="uv" stroke='#36C2CE' strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
           <div className='inner-card-training'>
-            <div className='training-statistic-title'> Training Statistic </div>
-
+            <div className='training-statistic-title'>
+              <p className='right-header'> Training Statistic </p>
+            </div>
+            <div className='training-statistic-data'>
+              <ResponsiveContainer width="90%" height="90%">
+                <PieChart width={200} height={200}>
+                  <Pie
+                    data={trainingStatisticData}
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill="#36C2CE"
+                    paddingAngle={6}
+                    dataKey="uv"
+                  >
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>  
           </div>
         </div>
         <div className='card-latest-match'>

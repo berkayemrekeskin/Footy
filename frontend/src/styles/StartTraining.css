@@ -1,0 +1,132 @@
+.start-training-body {
+    width: 100%;
+    height: 100vh;
+    background-color:  #4535C1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.circular-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-circle {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin-bottom: 50px;
+}
+
+.circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #478CCF;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mask, .fill {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.mask {
+    clip: rect(0px, 250px, 500px, 0px);
+}
+
+.mask.full {
+    clip: rect(0px, 250px, 500px, 0px);
+}
+
+.mask.half {
+    clip: rect(0px, 500px, 500px, 250px);
+}
+
+.circle .fill {
+    clip: rect(0px, 250px, 500px, 0px);
+    background-color: #77E4C8;
+    transform: rotate(0deg);
+    transition: transform 1s linear;
+}
+
+.fill.fix {
+    background-color: #00c853;
+    transform: rotate(0deg);
+    transition: transform 1s linear;
+}
+
+.inside-circle {
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: #4535C1;
+    line-height: 1;
+    position: absolute;
+    font-size: 50px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.timer {
+    font-size: 100px;
+    color: #FFF;
+}
+
+.start-training-type {
+    font-size: 40px;
+    color: #FFF;
+    margin-top: 10px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.completion-message {
+    text-align: center;
+    font-size: 50px;
+}
+
+.completion-message button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.start-button {
+    border: none;
+    background-color: #4535C1;
+    margin-right: 10px;
+}
+
+.pause-button {
+    border: none;
+    background-color: #4535C1;
+    margin-left: 10px;
+}
+
+.st-but-img {
+    filter: invert(1);
+}

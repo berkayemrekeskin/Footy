@@ -1,7 +1,4 @@
 
-
-
-
 .dashboard-page {
     height: 100vh;
     display: grid;
@@ -187,7 +184,30 @@
     font-size: 20px;
     font-weight: 600;
     margin: 10px;
+}
 
+.right-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.inner-card-training {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;    
+}
+
+.latest-training-data, .monthly-training-data, .training-statistic-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.training-circle {
+    width: 150px;
+    height: 150px;
 }
 
 

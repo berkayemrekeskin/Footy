@@ -2,6 +2,7 @@
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #77E4C8;
 }
 
 .loginContainer {
@@ -9,7 +10,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #c3c5ca;
+    background-color: #4535C1;
     flex-direction: column;
     width: 100%;
 }
@@ -28,12 +29,17 @@
     margin: 10px 0;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #77E4C8;
     color: #fff;
     cursor: pointer;
 }
 
 .loginText {
-    color: #fff;
+    color: #77E4C8;
     margin-top: 1rem;
+}
+
+.loginText a {
+    color: #478CCF;
+    text-decoration: none;
 }

@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Trainings from './components/Trainings';
+import StartTraining from './components/StartTraining';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +23,7 @@ root.render(
         <Route path="/user/info/create" element={<CreateUserInfoForm />} />
         <Route path="/training" element={<Trainings />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/training/:id" element={<StartTraining />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
@@ -30,8 +32,8 @@ root.render(
 // REGISTER +
 // LOGIN +
 // CREATE USER INFO +
-// DASHBOARD
-// PROFILE
+// DASHBOARD +
+// PROFILE 
 // TRAINING
 // MATCH
 // HOME

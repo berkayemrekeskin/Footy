@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { createTraining, getAllTrainings, updateTraining, deleteTraining, getPhysicalTrainings, getTacticalTrainings, getTechnicalTrainings } from "../api/api";
+import { createTraining, getAllTrainings, updateTraining, deleteTraining, getPhysicalTrainings, getTacticalTrainings, getTechnicalTrainings, getUserInfo, updateUserInfo } from "../api/api";
 import "../styles/Trainings.css";
 import { Circle } from 'rc-progress';
 import physicalImg from '../img/physical.png';
@@ -54,6 +54,7 @@ const Training = () => {
           count++;
 
       setTrainingStatistic(count / trainings.length * 100);
+
       console.log("Effect value:", formData.effect_value);
       console.log("Effect:", formData.effect);
       console.log("phy tr::" , physicalTrainings);
@@ -69,11 +70,23 @@ const Training = () => {
   const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-      const token = JSON.parse(localStorage.getItem("token"));
-      trainingPointCalculation();
-      const response = await createTraining(formData, token);
-      console.log("Training created:", response);
-      setTrainings([...trainings, response]);
+        const [PAC, SHO, PAS, DRI, DEF, PHY] = trainingPointCalculation();
+        const token = JSON.parse(localStorage.getItem("token"));
+        const userId = JSON.parse(localStorage.getItem('userId'));
+        const infoId = JSON.parse(localStorage.getItem(`infoID${userId}`));
+        const userInfo = await getUserInfo(infoId, token);
+        console.log(userInfo);
+        userInfo.pace += PAC;
+        userInfo.shooting += SHO;
+        userInfo.passing += PAS;
+        userInfo.dribbling += DRI;
+        userInfo.defending += DEF;
+        userInfo.physical += PHY;
+        updateUserInfo(infoId, userInfo, token);
+        console.log(userInfo);
+        const response = await createTraining(formData, token);
+        console.log("Training created:", response);
+        setTrainings([...trainings, response]);
       } catch (error) {
       console.error("Error creating training:", error);
       }
@@ -109,12 +122,12 @@ const Training = () => {
   function pointAlgorithm(pac, sho, pas, dri, def, phy) {
     console.log("points2:" , pac, sho, pas, dri, def, phy);
     let minutes = formData.duration;
-    let PAC = pac * minutes * 0.05;
-    let SHO = sho * minutes * 0.05;
-    let PAS = pas * minutes * 0.05;
-    let DRI = dri * minutes * 0.05;
-    let DEF = def * minutes * 0.05;
-    let PHY = phy * minutes * 0.05;
+    let PAC = parseFloat((pac * minutes * 0.05).toFixed(2));
+    let SHO = parseFloat((sho * minutes * 0.05).toFixed(2));
+    let PAS = parseFloat((pas * minutes * 0.05).toFixed(2));
+    let DRI = parseFloat((dri * minutes * 0.05).toFixed(2));
+    let DEF = parseFloat((def * minutes * 0.05).toFixed(2));
+    let PHY = parseFloat((phy * minutes * 0.05).toFixed(2));
     return [PAC, SHO, PAS, DRI, DEF, PHY];
   }
 
@@ -155,7 +168,6 @@ const Training = () => {
       return 0;
     }
     else {
-
       let pac, sho, pas, dri, def, phy;
       pac = sho = pas = dri = def = phy = 0;
       let calculatedPoints = [];
@@ -198,6 +210,7 @@ const Training = () => {
       let point = pointAlgorithm(calculatedPoints[0], calculatedPoints[1], calculatedPoints[2], calculatedPoints[3], calculatedPoints[4], calculatedPoints[5]);
       formData.effect_value = point[0] + point[1] + point[2] + point[3] + point[4] + point[5];
       console.log("Effect value:", point);
+      return point;
       
     }
   }
@@ -244,9 +257,22 @@ const Training = () => {
     );
   }
 
+  function isTrainingCompleted(training) {
+    return training.status === true;
+  }
+
+  const renderStartButton = (training, trainingStartLink) => {
+    if (!isTrainingCompleted(training)) {
+      return <button className='training-start-button' onClick={() => navigate(trainingStartLink)}>Start</button>;
+    }
+    return null;
+  };
+
   function renderTraining() {
     return trainings.slice(0,6).map(training => {
         var img;
+        const trainingStartLink = `/training/${training._id}`;
+
         if(training.type === "Strength" || training.type === "Power" || training.type === "Endurance" || training.type === "Mobility" || training.type === "Stability" || training.type === "Recovery")
             img = <img className="training-img" src={physicalImg} alt='profile' />;
         else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing")
@@ -267,7 +293,7 @@ const Training = () => {
                 <div className='training-description'>{training.description}</div>
                 <div className='training-date'>{training.date.substring(0, 10).split('-').reverse().join('/')}</div>
                 <div className='training-start-button'>
-                  <button className='training-start-button' onClick={() => handleStatusUpdate(training._id)}>Start</button>
+                  {renderStartButton(training, trainingStartLink)}
                 </div>
               </div>
               
@@ -285,7 +311,8 @@ const Training = () => {
           <sidebar className="training-sidebar">
               <button className='button' onClick={() => navigate('/dashboard')}> D </button>
               <button className='button' onClick={() => navigate('/training')}> T </button>
-              <button className='button' onClick={() => navigate('/profile')}> P </button>
+            <button className='button' onClick={() => navigate('/match')}> M </button>
+            <button className='button' onClick={() => navigate('/profile')}> P </button>
           </sidebar>
           <main className="training-main">
               <div className="create-training-card">

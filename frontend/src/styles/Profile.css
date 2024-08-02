@@ -111,20 +111,45 @@
 
 }
 
-.statistic-container-pf {
+.card-left {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+}
+
+.card-right {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
-    padding: 30px;
-    border-radius: 20px;
+}
+
+.background-card-left {
+    height: 100%;
+    margin: 20px;
+}
+
+.background-card-right {
+    padding: 100px;
+}
+
+.statistic-container-pf {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 100px;
 }
 
 .statistic-pf {
     width: 200px;
     height: 200px;
     text-align: center;
+}
+
+.stat-name {
+    font-size: 30px;
+    font-weight: 500;
+    margin: 10px;
 }
 
 
