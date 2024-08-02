@@ -181,13 +181,34 @@ export const getPositions = async (token) => {
     }
 }
 
-export const getTrainingTypes = async (token) => {
+export const getPhysicalTrainings = async (token) => {
     try {
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const response = await axiosInstance.get('/training-types');
+        const response = await axiosInstance.get('/physicalTraining');
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error.message;
     }
 }
+
+export const getTechnicalTrainings = async (token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get('/technicalTraining');
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
+export const getTacticalTrainings = async (token) => {
+    try {
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.get('/tacticalTraining');
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+}
+
 

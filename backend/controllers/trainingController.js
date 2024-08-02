@@ -8,7 +8,7 @@ const createTraining = asyncHandler( async(req,res) => {
     const { type, effect, effect_value, description, duration } = req.body;
     console.log(type);
 
-    if(physicalTraining.find(physical => physical.name === type) || technicalTraining.find(technical => technical.name === type) || tacticalTraining.find(tactical => tactical.name === type))
+    if(physicalTraining.find(physical => physical.type === type) || technicalTraining.find(technical => technical.type === type) || tacticalTraining.find(tactical => tactical.type === type))
     {
         if(!duration || !description)
             res.status(400).json({ msg: "All fields are mandatory for ", type});

@@ -12,27 +12,33 @@ exports.positions = [
     { name: "Left Back", id: 11, abbreviation: "LB" },
     { name: "Goalkeeper", id: 12, abbreviation: "GK" }
 ];
+
 exports.physicalTraining = [
-    { name: "Strength" },
-    { name: "Power" },
-    { name: "Endurance" },
-    { name: "Mobility" },
-    { name: "Stability" },
-    { name: "Recovery" }
+    { type: "Strength", effect: "PHY", effect_value: 1 },
+    { type: "Power", effect: "PHY", effect_value: 1 },
+    { type: "Endurance" , effect: "PHY", effect_value: 1 },
+    { type: "Mobility" , effect: "PHY", effect_value: 1 },
+    { type: "Stability" , effect: "PHY", effect_value: 1 },
+    { type: "Recovery", effect: "PHY", effect_value: 1  },
+    { type: "Speed", effect: "PAC", effect_value: 1 },
+    { type: "Agility", effect: "PHY", effect_value: 1 }
 ];
 
 exports.technicalTraining = [
-    { name: "Passing" },
-    { name: "Tackling" },
-    { name: "Ball Control" },
-    { name: "Possesion" },
-    { name: "Positioning" },
-    { name: "Finishing" }
+    { type: "Passing", effect: "PAS", effect_value: 1 },
+    { type: "Tackling", effect: "DEF", effect_value: 1 },
+    { type: "Ball Control", effect: "DRI", effect_value: 1 },
+    { type: "Possesion", effect: "PAS", effect_value: 1 },
+    { type: "Positioning", effect: "DEF", effect_value: 1 },
+    { type: "Finishing", effect: "SHO", effect_value: 1 },
+    { type: "Shooting", effect: "SHO", effect_value: 1 },
+    { type: "Dribbling", effect: "DRI", effect_value: 1 },
+    { type: "Heading", effect: "SHO", effect_value: 1 }
 ];
 
 exports.tacticalTraining = [
-    { name: "Set Pieces" },
-    { name: "Formations" },
-    { name: "Attacking" },
-    { name: "Defensive" }
+    { type: "Set Pieces", effect: "PAS", effect_value: 1 },
+    { type: "Formations", effect: "DEF", effect_value: 1 },
+    { type: "Attacking", effect: "SHO", effect_value: 1 } ,
+    { type: "Defensive", effect: "DEF", effect_value: 1 }
 ];

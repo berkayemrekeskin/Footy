@@ -82,7 +82,7 @@
         "title"
         "duration"
         "description"
-        "complete-button"
+        "start-button"
         "date";
 }
 
@@ -108,7 +108,7 @@
     padding-right: 10px;
 }
 
-.training-complete-button {
+.training-start-button {
     justify-self: end;
     padding-bottom: 0px;
     width: 150px;
@@ -116,7 +116,7 @@
     margin-right: 10px;
     font-size: 20px;
     font-weight: 300;
-    grid-area: complete-button;
+    grid-area: start-button;
     cursor: pointer;
 }
 

@@ -15,9 +15,22 @@ app.use(cors({
 app.use(express.json());
 
 const {positions} = require("./constansts");
+const {physicalTraining, technicalTraining, tacticalTraining} = require("./constansts");
 
 app.get('/api/positions', (req, res) => {
   res.json({positions});
+});
+
+app.get('/api/physicalTraining', (req, res) => {
+  res.json({physicalTraining});
+});
+
+app.get('/api/technicalTraining', (req, res) => {
+  res.json({technicalTraining});
+});
+
+app.get('/api/tacticalTraining', (req, res) => {
+  res.json({tacticalTraining});
 });
 
 app.use("/api/auth", require("./routes/auth"));

@@ -343,7 +343,7 @@ const Dashboard = () => {
             <div className='position'> Position: {userInfo.position}</div>
           </div>
           <div className='inner-card-user-info'> 
-              <img className="user-info-icon" src={renderPositionIcon(userInfo.position)} alt='position-icon' />
+              <img className="user-info-icon" src={renderPositionIcon(userInfo.position)} alt='position-icon'  />
               <div className='user-info-details'>
                 <div className='user-info'> PAC: {userInfo.pace}</div>
                 <div className='user-info'> SHO: {userInfo.shooting}</div>
