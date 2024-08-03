@@ -1,6 +1,6 @@
 # Footy
 
-## Version 1.0
+## Version 1.2
 
 ### Features
 
@@ -9,34 +9,46 @@
    - User login
    - Email verification
 
+<img src="./ss/register.png" alt="Register" width="500">
+<img src="./ss/login.png" alt="Login" width="500">
+
 2. **General CRUD Operations**
    - Create, Read, Update, Delete operations for:
      - User profiles
      - Player information
      - Training forms
+     - Match information
 
-3. **Player Information**
+<img src="./ss/user-info-create.png" alt="User Info Create" width="500">
+
+3. **Player Profile**
    - Basic details (name, age, weight etc.)
-   - Position-specific attributes (e.g., goals for forwards, assists for midfielders)
+   - Position-specific attributes and statistics
 
-<img src="./ss/user.png" alt="Player Information" width="500"/>
+<img src="./ss/profile.png" alt="Player Information" width="500"/>
 
 4. **Training Forms**
-   - Custom training plans based on player position
    - Track training progress
    - Submit training reports
+   - View past training sessions
 
-<img src="./ss/training.png" alt="Player Information" width="500"/>
+<img src="./ss/training.png" alt="Training" width="500"/>
 
 5. **Complete Training Statistics**
    - Aggregate data on training sessions
    - Performance analysis
+   - Visual representation of player statistics
   
-<img src="./ss/dashboard.png" alt="Player Information" width="500"/>
-
 6. **Focus Areas According to Player Statistics**
    - Personalized training recommendations
    - Highlight strengths and areas for improvement
+
+7. **Dashboard**
+   - Overview of player statistics
+   - Training progress
+   - Match analysis and statistics
+
+<img src="./ss/dashboard.png" alt="Player Information" width="500"/>
 
 ### Implementation Details
 
