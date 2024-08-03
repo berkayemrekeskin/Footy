@@ -5,12 +5,12 @@ const mongoose = require("mongoose");
 const createMatch = asyncHandler( async(req,res) => {
 
     const { position, minutes_played, goals_scored, assists, yellow_card, red_card, total_shots, shots_on_target, total_passes,
-        passes_completed, total_dribbles, dribbles_completed, total_tackles, tackles_completed, saves, goals_conceded } = req.body;
+        passes_completed, total_dribbles, dribbles_completed, total_tackles, tackles_completed, saves, goals_conceded, overall } = req.body;
 
     if (position === "Goalkeeper") {
         if (
             saves === undefined || goals_conceded === undefined || minutes_played === undefined || yellow_card === undefined ||
-            red_card === undefined || total_passes === undefined || passes_completed === undefined
+            red_card === undefined || total_passes === undefined || passes_completed === undefined || overall === undefined
         ) {
             return res.status(400).json({ msg: "All fields are mandatory for Goalkeeper" });
         }
@@ -19,7 +19,7 @@ const createMatch = asyncHandler( async(req,res) => {
             minutes_played === undefined || yellow_card === undefined || red_card === undefined || total_shots === undefined ||
             shots_on_target === undefined || total_passes === undefined || passes_completed === undefined || total_dribbles === undefined ||
             dribbles_completed === undefined || total_tackles === undefined || tackles_completed === undefined ||
-            goals_scored === undefined || assists === undefined
+            goals_scored === undefined || assists === undefined || overall === undefined
         ) {
             return res.status(400).json({ msg: `All fields are mandatory for ${position}` });
         }
@@ -43,6 +43,7 @@ const createMatch = asyncHandler( async(req,res) => {
         tackles_completed,
         saves,
         goals_conceded,
+        overall
     });
 
     try {

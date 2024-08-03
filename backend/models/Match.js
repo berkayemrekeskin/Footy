@@ -74,6 +74,10 @@ const MatchSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    overall: {
+        type: Number,
+        required: true,
+    },
 })
 
 module.exports = mongoose.model('Match', MatchSchema);

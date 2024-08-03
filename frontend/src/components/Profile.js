@@ -138,7 +138,7 @@ const Profile = () => {
                 <section className='profile-sidebar'> 
                     <button className='button' onClick={() => navigate('/dashboard')}> D </button>
                     <button className='button' onClick={() => navigate('/training')}> T </button>
-                    <button className='button' onClick={() => navigate('/match')}> M </button>
+                    <button className='button' onClick={() => navigate('/matches')}> M </button>
                     <button className='button' onClick={() => navigate('/profile')}> P </button>
                 </section>
                 <main className='profile-main'> 

@@ -1,0 +1,195 @@
+.matches-page {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px 1fr;
+    grid-template-areas: 
+        "side header"
+        "side main";
+    background-color: #c3c5ca;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1c1f23;
+}
+
+.matches-header {
+    background-color: #fff;
+    grid-area: header;
+    margin: 20px;
+    margin-bottom: 0px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.matches-sidebar {
+    background-color: #1c1f23;
+    grid-area: side;
+    margin: 20px;
+    margin-right: 0px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.matches-main {
+    background-color: #c3c5ca;
+    padding: 20px;
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        "create-matches create-matches create-matches calendar calendar"
+        "create-matches create-matches create-matches latest-matches overall-matches"
+        "all-matches all-matches all-matches statistics statistics";
+    gap: 20px;
+}
+
+.matches-statistic {
+    width: 150px;
+    height: 150px;
+}
+
+.create-matches-card, .latest-match-card, .calendar-card, .overall-matches-card, .match-statistics-card, .all-matches-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.create-matches-card {
+    grid-area: create-matches;  
+}
+
+.create-matches-title {
+    font-weight: bold;
+    font-size: 40px;
+    padding: 10px;
+}
+
+.match-create-input {
+    height: 40px;
+    width: 250px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #1c1f23;
+}
+
+.match-create-button {
+    height: 60px;
+    width: 275px;
+    background-color: #1c1f23;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.all-matches-card {
+    grid-area: all-matches;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.all-matches-title {
+    font-weight: bold;
+}
+
+.all-matches-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.latest-match-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    grid-area: latest-matches;
+
+}
+
+.calendar-card {
+    grid-area: calendar;
+}
+
+.overall-matches-card
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    grid-area: overall-matches;
+}
+
+.match-statistics-card {
+    grid-area: statistics;
+}
+
+.latest-match-title, .overall-matches-title {
+    font-weight: bold;
+}
+
+.latest-match-circle, .overall-matches-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+}
+
+.react-calendar {
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    max-height: 500px;
+    background: #4535C1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    }
+
+.react-calendar__navigation {
+    display: none;
+}
+
+
+.react-calendar__month-view__weekdays {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    font-weight: bold;
+}
+
+.react-calendar__tile {
+    background: #77E4C8;
+    transition: background-color 0.25s;
+    border-radius: 15px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.react-calendar__tile--now {
+    background: #36C2CE;
+    color: white;
+}
+  
+.react-calendar__tile--active {
+    background: #4535C1;
+    color: white;
+}
+

@@ -99,10 +99,19 @@ const Dashboard = () => {
   React.useEffect(() => {
     if (matches.length > 0) {
       for (let i = 0; i < matches.length; i++)
+      {
         matchPointCalculation(matches[i], i);
-      positionPointCalculation();
+        console.log('matchPoints INSIDE USEEFFECT:', matchPoints);
+        matches[i].overall = matchPoints[i];
+        console.log('matches[i].overall:', matches[i].overall);
+      }
     }
   }, [matches]);
+
+
+  React.useEffect(() => {
+    positionPointCalculation();
+  }, [updatedInfo]);
 
   const renderPositionIcon = (position) => {
     if(position === "Right Wing" || position === "Left Wing" || position === "Center Forward")
@@ -222,10 +231,25 @@ const Dashboard = () => {
         redCardPoint = -5;
       else
         redCardPoint = 0;
+
       point = minutePoint + goalPoint + assistPoint + shotPoint + passPoint + tacklePoint + dribblePoint + savePoint + goalConcededPoint + yellowCardPoint + redCardPoint;
       matchPoints[index] = point;
-      console.log('point & pos', point, position);
+      console.log('point & pos tewst', point, position);
     }
+
+    setUserInfo((prevInfo) => ({
+      ...prevInfo,
+      pace: prevInfo.pace + parseFloat(minutePoint.toFixed(2)),
+      shooting: prevInfo.shooting + parseFloat(((goalPoint + shotPoint) / 2).toFixed(2)),
+      passing: prevInfo.passing + parseFloat(((passPoint + assistPoint) / 2).toFixed(2)),
+      dribbling: prevInfo.dribbling + parseFloat(dribblePoint.toFixed(2)),
+      defending: prevInfo.defending + parseFloat(((tacklePoint + goalConcededPoint) / 2).toFixed(2)),
+      physical: prevInfo.physical + parseFloat(((tacklePoint + yellowCardPoint + redCardPoint) / 3).toFixed(2))
+
+    }));
+
+    console.log('userInfo after Match:', userInfo);
+
   }
 
 
@@ -233,40 +257,42 @@ const Dashboard = () => {
     let position = returnPosition();
     if(position === 'Forward')
     {
-      updatedInfo.pace = userInfo.pace * 0.3;
-      updatedInfo.shooting = userInfo.shooting * 0.2;
-      updatedInfo.passing = userInfo.passing * 0.2;
-      updatedInfo.dribbling = userInfo.dribbling * 0.2;
-      updatedInfo.defending = userInfo.defending * 0.1;
-      updatedInfo.physical = userInfo.physical * 0.1;
+      updatedInfo.pace = parseFloat((userInfo.pace * 0.3).toFixed(2));
+      updatedInfo.shooting = parseFloat((userInfo.shooting * 0.2).toFixed(2));
+      updatedInfo.passing = parseFloat((userInfo.passing * 0.2).toFixed(2));
+      updatedInfo.dribbling = parseFloat((userInfo.dribbling * 0.2).toFixed(2));
+      updatedInfo.defending = parseFloat((userInfo.defending * 0.1).toFixed(2));
+      updatedInfo.physical = parseFloat((userInfo.physical * 0.1).toFixed(2));
     }      
     if(position === 'Midfielder')
     {
-      updatedInfo.pace = userInfo.pace * 0.2;
-      updatedInfo.shooting = userInfo.shooting * 0.2;
-      updatedInfo.passing = userInfo.passing * 0.3;
-      updatedInfo.dribbling = userInfo.dribbling * 0.2;
-      updatedInfo.defending = userInfo.defending * 0.1;
-      updatedInfo.physical = userInfo.physical * 0.1;
+      updatedInfo.pace = parseFloat((userInfo.pace * 0.2).toFixed(2));
+      updatedInfo.shooting = parseFloat((userInfo.shooting * 0.2).toFixed(2));
+      updatedInfo.passing = parseFloat((userInfo.passing * 0.3).toFixed(2));
+      updatedInfo.dribbling = parseFloat((userInfo.dribbling * 0.2).toFixed(2));
+      updatedInfo.defending = parseFloat((userInfo.defending * 0.1).toFixed(2));
+      updatedInfo.physical = parseFloat((userInfo.physical * 0.1).toFixed(2));
     }
     if(position === 'Defender')
     {
-      updatedInfo.pace = userInfo.pace * 0.1;
-      updatedInfo.shooting = userInfo.shooting * 0.1;
-      updatedInfo.passing = userInfo.passing * 0.1;
-      updatedInfo.dribbling = userInfo.dribbling * 0.1;
-      updatedInfo.defending = userInfo.defending * 0.4;
-      updatedInfo.physical = userInfo.physical * 0.2;
+      updatedInfo.pace = parseFloat((userInfo.pace * 0.1).toFixed(2));
+      updatedInfo.shooting = parseFloat((userInfo.shooting * 0.1).toFixed(2));
+      updatedInfo.passing = parseFloat((userInfo.passing * 0.1).toFixed(2));
+      updatedInfo.dribbling = parseFloat((userInfo.dribbling * 0.1).toFixed(2));
+      updatedInfo.defending = parseFloat((userInfo.defending * 0.4).toFixed(2));
+      updatedInfo.physical = parseFloat((userInfo.physical * 0.2).toFixed(2));
     }
     if(position === 'Goalkeeper')
     {
-      updatedInfo.pace = userInfo.pace * 0.1;
-      updatedInfo.shooting = userInfo.shooting * 0.1;
-      updatedInfo.passing = userInfo.passing * 0.1;
-      updatedInfo.dribbling = userInfo.dribbling * 0.1;
-      updatedInfo.defending = userInfo.defending * 0.1;
-      updatedInfo.physical = userInfo.physical * 0.5;
+      updatedInfo.pace = parseFloat((userInfo.pace * 0.1).toFixed(2));
+      updatedInfo.shooting = parseFloat((userInfo.shooting * 0.1).toFixed(2));
+      updatedInfo.passing = parseFloat((userInfo.passing * 0.1).toFixed(2));
+      updatedInfo.dribbling = parseFloat((userInfo.dribbling * 0.1).toFixed(2));
+      updatedInfo.defending = parseFloat((userInfo.defending * 0.1).toFixed(2));
+      updatedInfo.physical = parseFloat((userInfo.physical * 0.5).toFixed(2));
     }
+
+    console.log('updatedInfo:', updatedInfo);
     return [updatedInfo.pace, updatedInfo.shooting, updatedInfo.passing, updatedInfo.dribbling, updatedInfo.defending, updatedInfo.physical];
   }
 
@@ -339,7 +365,7 @@ const Dashboard = () => {
         <section className='dashboard-sidebar'> 
           <button className='button' onClick={() => navigate('/dashboard')}> D </button>
           <button className='button' onClick={() => navigate('/training')}> T </button>
-          <button className='button' onClick={() => navigate('/match')}> M </button>
+          <button className='button' onClick={() => navigate('/matches')}> M </button>
           <button className='button' onClick={() => navigate('/profile')}> P </button>
         </section>
         <main className='dashboard-main'> 
@@ -353,12 +379,12 @@ const Dashboard = () => {
           <div className='inner-card-user-info'> 
               <img className="user-info-icon" src={renderPositionIcon(userInfo.position)} alt='position-icon'  />
               <div className='user-info-details'>
-                <div className='user-info'> PAC: {userInfo.pace}</div>
-                <div className='user-info'> SHO: {userInfo.shooting}</div>
-                <div className='user-info'> PAS: {userInfo.passing}</div>
-                <div className='user-info'> DRI: {userInfo.dribbling}</div>
-                <div className='user-info'> DEF: {userInfo.defending}</div>
-                <div className='user-info'> PHY: {userInfo.physical}</div>
+                <div className='user-info'> PAC: {updatedInfo.pace}</div>
+                <div className='user-info'> SHO: {updatedInfo.shooting}</div>
+                <div className='user-info'> PAS: {updatedInfo.passing}</div>
+                <div className='user-info'> DRI: {updatedInfo.dribbling}</div>
+                <div className='user-info'> DEF: {updatedInfo.defending}</div>
+                <div className='user-info'> PHY: {updatedInfo.physical}</div>
               </div>
           </div>
           <div className='inner-card-focus'> 

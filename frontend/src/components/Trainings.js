@@ -61,7 +61,7 @@ const Training = () => {
       console.log("tac tr::" , tacticalTrainings);
       console.log("tec tr::" , technicalTrainings);
 
-    });
+    }, []);
 
   const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -311,7 +311,7 @@ const Training = () => {
           <sidebar className="training-sidebar">
               <button className='button' onClick={() => navigate('/dashboard')}> D </button>
               <button className='button' onClick={() => navigate('/training')}> T </button>
-            <button className='button' onClick={() => navigate('/match')}> M </button>
+            <button className='button' onClick={() => navigate('/matches')}> M </button>
             <button className='button' onClick={() => navigate('/profile')}> P </button>
           </sidebar>
           <main className="training-main">

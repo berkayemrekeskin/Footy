@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import Trainings from './components/Trainings';
 import StartTraining from './components/StartTraining';
+import Matches from './components/Matches';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,6 +25,7 @@ root.render(
         <Route path="/training" element={<Trainings />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/training/:id" element={<StartTraining />} />
+        <Route path="/matches" element={<Matches />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
