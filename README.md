@@ -50,6 +50,11 @@
 
 <img src="./ss/dashboard.png" alt="Player Information" width="500"/>
 
+8. **Player Point Algorithm**
+   - Position-specific algorithm to calculate player points
+   - Algorithm works on match and training data
+   - Provides a comprehensive view of player performance
+
 ### Implementation Details
 
 1. **Backend**
@@ -62,6 +67,7 @@
    - Profile pages displaying player information
    - Dashboard for player statistics
    - Training form submissions and progress tracking
+   - Match information and statistics
 
 3. **Statistics and Analysis**
    - Generate reports based on player data
