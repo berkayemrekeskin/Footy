@@ -275,7 +275,8 @@ const Training = () => {
 
         if(training.type === "Strength" || training.type === "Power" || training.type === "Endurance" || training.type === "Mobility" || training.type === "Stability" || training.type === "Recovery")
             img = <img className="training-img" src={physicalImg} alt='profile' />;
-        else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing")
+        else if(training.type === "Passing" || training.type === "Tackling" || training.type === "Positioning" || training.type === "Ball Control" || training.type === "Possesion" || training.type === "Finishing" || training.type === "Shooting" 
+          || training.type === "Dribbling" || training.type === "Heading") 
             img = <img className="training-img" src={technicalImg} alt='profile' />;
         else if(training.type === "Set Pieces" || training.type === "Formations" || training.type === "Attacking" || training.type === "Defensive")
             img = <img className="training-img" src={tacticalImg} alt='profile' />;

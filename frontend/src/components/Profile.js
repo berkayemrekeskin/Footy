@@ -40,7 +40,8 @@ const Profile = () => {
             <div className='statistic-pf'>
               <Circle
                 percent={userInfo.goals_conceded / userInfo.saves * 100} 
-                strokeColor="#1c1f23"
+                strokeColor="#4535C1"
+                trailColor='#77E4C8'
                 strokeWidth={6}
                 trailWidth={6}
               />
@@ -49,7 +50,8 @@ const Profile = () => {
             <div className='statistic-pf'>
               <Circle
                 percent={userInfo.passes_complete / userInfo.passes_tried * 100} 
-                strokeColor="#1c1f23"
+                strokeColor="#4535C1"
+                trailColor='#77E4C8'
                 strokeWidth={6}
                 trailWidth={6}
               />
@@ -65,7 +67,8 @@ const Profile = () => {
               <div className='statistic-pf'>
                 <Circle
                   percent={userInfo.pace} 
-                  strokeColor="#1c1f23"
+                  strokeColor="#4535C1"
+                  trailColor='#77E4C8'
                   strokeWidth={6}
                   trailWidth={6}
                 />
@@ -74,7 +77,8 @@ const Profile = () => {
               <div className='statistic-pf'>
                 <Circle
                   percent={userInfo.shooting} 
-                  strokeColor="#1c1f23"
+                  strokeColor="#4535C1"
+                  trailColor='#77E4C8'
                   strokeWidth={6}
                   trailWidth={6}
                 />
@@ -83,7 +87,8 @@ const Profile = () => {
                 <div className='statistic-pf'>
                   <Circle
                     percent={userInfo.passing} 
-                    strokeColor="#1c1f23"
+                    strokeColor="#4535C1"
+                    trailColor='#77E4C8'
                     strokeWidth={6}
                     trailWidth={6}
                   />
@@ -93,7 +98,8 @@ const Profile = () => {
               <div className='statistic-pf'>
                   <Circle
                     percent={userInfo.dribbling} 
-                    strokeColor="#1c1f23"
+                    strokeColor="#4535C1"
+                    trailColor='#77E4C8'
                     strokeWidth={6}
                     trailWidth={6}
                   />
@@ -103,7 +109,8 @@ const Profile = () => {
               <div className='statistic-pf'>
                   <Circle
                     percent={userInfo.defending} 
-                    strokeColor="#1c1f23"
+                    strokeColor="#4535C1"
+                    trailColor='#77E4C8'
                     strokeWidth={6}
                     trailWidth={6}
                   />
@@ -113,7 +120,8 @@ const Profile = () => {
               <div className='statistic-pf'>
                   <Circle
                     percent={userInfo.physical} 
-                    strokeColor="#1c1f23"
+                    strokeColor="#4535C1"
+                    trailColor='#77E4C8'
                     strokeWidth={6}
                     trailWidth={6}
                   />

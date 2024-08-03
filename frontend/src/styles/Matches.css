@@ -133,6 +133,10 @@
 
 .match-statistics-card {
     grid-area: statistics;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .latest-match-title, .overall-matches-title {
