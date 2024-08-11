@@ -33,6 +33,7 @@
    - View past training sessions
 
 <img src="./ss/training.png" alt="Training" width="500"/>
+<img src="./ss/training-start.png" alt="Training" width="500"/>
 
 5. **Complete Training Statistics**
    - Aggregate data on training sessions
