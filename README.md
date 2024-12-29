@@ -9,8 +9,8 @@
    - User login
    - Email verification
 
-<img src="./ss/register.png" alt="Register" width="500">
-<img src="./ss/login.png" alt="Login" width="500">
+<img src="./ss/register.png" alt="Register">
+<img src="./ss/login.png" alt="Login">
 
 2. **General CRUD Operations**
    - Create, Read, Update, Delete operations for:
@@ -19,21 +19,21 @@
      - Training forms
      - Match information
 
-<img src="./ss/user-info-create.png" alt="User Info Create" width="500">
+<img src="./ss/user-info-create.png" alt="User Info Create">
 
 3. **Player Profile**
    - Basic details (name, age, weight etc.)
    - Position-specific attributes and statistics
 
-<img src="./ss/profile.png" alt="Player Information" width="500"/>
+<img src="./ss/profile.png" alt="Player Information"/>
 
 4. **Training Forms**
    - Track training progress
    - Submit training reports
    - View past training sessions
 
-<img src="./ss/training.png" alt="Training" width="500"/>
-<img src="./ss/training-start.png" alt="Training" width="500"/>
+<img src="./ss/training.png" alt="Training"/>
+<img src="./ss/training-start.png" alt="Training"/>
 
 5. **Complete Training Statistics**
    - Aggregate data on training sessions
@@ -49,7 +49,7 @@
    - Training progress
    - Match analysis and statistics
 
-<img src="./ss/dashboard.png" alt="Player Information" width="500"/>
+<img src="./ss/dashboard.png" alt="Player Information"/>
 
 8. **Player Point Algorithm**
    - Position-specific algorithm to calculate player points
